@@ -1,9 +1,15 @@
-      <!-- HTML + navbar -->
-      <?php include '../template/navbar_tienda.php';
-      // Incluir el archivo de conexión
-      include '../../config/conexion.php';
-      ?>
+<!-- HTML + navbar -->
+<?php include '../template/navbar_tienda.php';
+// Incluir el archivo de conexión
+include '../../config/conexion.php';
+?>
+<!-- end navbar -->
+     
+
+
+ 
       
+
       <!-- Breadcrumb -->
       <nav class="bg-secondary mb-3" aria-label="breadcrumb">
         <div class="container">
@@ -47,86 +53,100 @@
 
             <!-- Order review -->
             <h2 class="h4 mb-4">1. Revisión del pedido</h2>
-            <div class="bg-secondary rounded mb-5">
-              <!-- Itera a través de los productos en el carrito -->
+<div class="bg-secondary rounded mb-5">
+  <?php
+  if (isset($_POST['cart'])) {
+    $storedCart = json_decode($_POST['cart'], true);
+
+    // Manejar eliminación de productos
+    if (isset($_POST['removeIndex'])) {
+      $removeIndex = $_POST['removeIndex'];
+      unset($storedCart[$removeIndex]);
+      $storedCart = array_values($storedCart); // Reindexar array
+    }
+
+    // Manejar actualización de cantidades
+    if (isset($_POST['updateIndex']) && isset($_POST['newQuantity'])) {
+      $updateIndex = $_POST['updateIndex'];
+      $newQuantity = $_POST['newQuantity'];
+      $storedCart[$updateIndex]['quantity'] = $newQuantity;
+    }
+
+    $index = 0; // Inicializar el contador
+    $total = 0; // Inicializar el total
+    
+    foreach ($storedCart as $producto) {
+      $nombre = $producto['nombre'];
+      $precio = $producto['precio'];
+      $imagen = $producto['imagen'];
+      $marca = $producto['marca'];
+      $categoria = $producto['categoria'];
+      $stock = $producto['stock'];
+      $cantidad = isset($producto['quantity']) ? $producto['quantity'] : 1; // Obtener cantidad o establecer 1 por defecto
+      $total += $precio * $cantidad; // Acumular el precio total
+  ?>
+      <div class="media px-2 px-sm-4 py-4 border-bottom cart-item" data-product-index="<?php echo $index; ?>">
+        <div id="empty-cart-image" style="display: none;">
+          <img src="./assets/img/ecommerce/carrito-de-compras.png" alt="Empty Cart">
+        </div>
+        <a href="detalle-producto.php?id=<?php echo $producto['id']; ?>" style="min-width: 80px;">
+          <img src="<?php echo $imagen; ?>" width="80" alt="Product thumb">
+        </a>
+        <div class="media-body w-100 pl-3">
+          <div class="d-sm-flex">
+            <div class="pr-sm-3 w-100" style="max-width: 16rem;">
+              <h3 class="font-size-sm mb-3">
+                <a href="detalle-producto.php?id=<?php echo $producto['id']; ?>" class="nav-link font-weight-bold"><?php echo $nombre; ?></a>
+              </h3>
+              <ul class="list-unstyled font-size-xs mt-n2 mb-2">
+                <li class="mb-0"><span class="text-muted">Categoria:</span><?php echo $categoria; ?></li>
+                <li class="mb-0"><span class="text-muted">Marca:</span><?php echo $marca; ?></li>
+              </ul>
+            </div>
+            <div class="d-flex pr-sm-3">
+              <form method="post" action="">
+                <input type="hidden" name="cart" value='<?php echo json_encode($storedCart); ?>'>
+                <input type="hidden" name="updateIndex" value="<?php echo $index; ?>">
+                <input type="number" name="newQuantity" class="form-control form-control-sm bg-light mr-3 cart-quantity-input" style="width: 4.5rem;" value="<?php echo $cantidad; ?>" required min="1" max="<?php echo $stock; ?>" data-price="<?php echo $precio; ?>" data-cart-item="<?php echo 'cart-item-' . $index; ?>">
+                <button type="submit" class="btn btn-outline-secondary btn-sm">Actualizar</button>
+              </form>
+              <div class="text-nowrap pt-2"><strong class="text-danger">$<?php echo number_format($precio * $cantidad, 2); ?></strong> <s class="font-size-xs text-muted">$<?php echo number_format(($precio / 4.0), 2); ?></s></div>
+            </div>
+            <div class="d-flex align-items-center flex-sm-column text-sm-center ml-sm-auto pt-3 pt-sm-0">
+              <form method="post" action="">
+                <input type="hidden" name="cart" value='<?php echo json_encode($storedCart); ?>'>
+                <input type="hidden" name="removeIndex" value="<?php echo $index; ?>">
+                <button class="btn btn-outline-primary btn-sm mr-2 mr-sm-0 delete-product" type="submit">
+                  Eliminar
+                </button>
+              </form>
               <?php
-      
-              $totalAmount = 0;
-              if (isset($_POST['cart'])) {
-                $storedCart = json_decode($_POST['cart'], true);
-                $index = 0; // Inicializar el contador
-                foreach ($storedCart as $producto) {
-                  $nombre = $producto['nombre'];
-                  $precio = $producto['precio'];
-                  $imagen = $producto['imagen'];
-                  $marca = $producto['marca'];
-                  $categoria = $producto['categoria'];
-                  $stock = $producto['stock'];
-
-                  $precioTotalProducto = $precio; 
-                  // Suma al total del carrito
-                  $totalAmount += $precioTotalProducto;
-
+              if (isset($_SESSION["user_token"])) {
+                $user_token = $_SESSION["user_token"];
               ?>
-              
-                  <div class="media px-2 px-sm-4 py-4 border-bottom cart-item" data-product-index="<?php echo $index; ?>">
-                    <div id="empty-cart-image" style="display: none;">
-                      <img src="../../assets_tienda/img/ecommerce/carrito-de-compras.png" alt="Empty Cart">
-                    </div>
-                    <a href="detalle-producto.php?id=<?php echo $producto['id']; ?>" style="min-width: 80px;">
-                      <img src="<?php echo $imagen; ?>" width="80" alt="Product thumb">
-                    </a>
-                    <div class="media-body w-100 pl-3">
-                      <div class="d-sm-flex">
-                        <div class="pr-sm-3 w-100" style="max-width: 16rem;">
-                          <h3 class="font-size-sm mb-3">
-                            <a href="detalle-producto.php?id=<?php echo $producto['id']; ?>" class="nav-link font-weight-bold"><?php echo $nombre; ?></a>
-                          </h3>
-                          <ul class="list-unstyled font-size-xs mt-n2 mb-2">
-                            <li class="mb-0"><span class="text-muted">Categoria:</span><?php echo $categoria; ?></li>
-                            <li class="mb-0"><span class="text-muted">Marca:</span><?php echo $marca; ?></li>
-                          </ul>
-                        </div>
-                        
-                        <div class="d-flex pr-sm-3">
-                          <input type="number" class="form-control form-control-sm bg-light mr-3 cart-quantity-input" style="width: 4.5rem;" value="1" required min="0" max="<?php echo $stock; ?>" data-cart-item="<?php echo 'cart-item-' . $index; ?>">
-                          <div class="text-nowrap pt-2"><strong class="text-danger">S/<?php echo number_format($precio, 2); ?></strong> <s class="font-size-xs text-muted">$<?php echo number_format(($precio / 4.0), 2); ?></s></div>
-                        </div>
-                        
-                        <div class="d-flex align-items-center flex-sm-column text-sm-center ml-sm-auto pt-3 pt-sm-0">
-                          <button class="btn btn-outline-primary btn-sm mr-2 mr-sm-0 delete-product delete-cart-item" data-product-index="<?php echo $index; ?>">
-                            Eliminar
-                          </button>
-                          <?php
-                          // Verificar si el usuario tiene la sesión iniciada
-                          if (isset($_SESSION["user_token"])) {
-                            $user_token = $_SESSION["user_token"];
-                          ?>
-                            <button class="btn btn-link btn-sm text-decoration-none pt-0 pt-sm-2 px-0 pb-0 mt-0 mt-sm-1">
-                              Añadir a Favoritos
-                              <i class="cxi-heart ml-1"></i>
-                            </button>
-                          <?php
-                          } else {
-                            echo "Inicie sesion para guardar en favoritos";
-                            // Aquí puedes agregar el contenido que deseas mostrar cuando el usuario no tiene sesión iniciada
-                          }
-                          ?>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+                <button class="btn btn-link btn-sm text-decoration-none pt-0 pt-sm-2 px-0 pb-0 mt-0 mt-sm-1">
+                  Añadir a Favoritos
+                  <i class="cxi-heart ml-1"></i>
+                </button>
               <?php
-                  $index++; // Incrementar el contador en cada iteración
-                }
               }
               ?>
-
-              <div class="px-3 px-sm-4 py-4 text-right">
-                <span class="text-muted mr-2">Total:</span>
-                <span id="total-amount" class="h5 mb-0">S/<?php echo number_format($totalAmount, 2); ?></span>
-              </div>
             </div>
+          </div>
+        </div>
+      </div>
+  <?php
+      $index++; // Incrementar el contador en cada iteración
+    }
+  ?>
+  <div class="px-3 px-sm-4 py-4 text-right">
+    <span class="text-muted">Total:<strong class="text-dark font-size-lg ml-2">$<?php echo number_format($total, 2); ?></strong></span>
+  </div>
+  <?php
+  }
+  ?>
+</div>
+
 
             <!-- Adresses -->
             <h2 class="h4 mb-4">2. Dirección de envío y facturación</h2>
@@ -343,7 +363,7 @@
                 <ul class="list-unstyled border-bottom mb-0 p-4">
                   <li class="d-flex justify-content-between mb-2">
                     <strong><span class="fw-bold">Total:</span></strong>
-                    <span class="fw-bold">S/<?php echo number_format($totalAmount, 2);?></span>
+                    <span class="fw-bold">S/<?php echo number_format($total, 2);?></span>
                   </li>
                   <li class="d-flex justify-content-between mb-2">
                     <span>Costos de envío:</span>
@@ -356,7 +376,7 @@
                 </ul>
                 <div class="d-flex justify-content-between p-4">
                   <span class="h5 mb-0">Monto a pagar:</span>
-                  <span class="h5 mb-0">S/<?php $montopagar=$totalAmount+5; echo number_format($montopagar, 2);?></span>
+                  <span class="h5 mb-0">S/<?php $montopagar=$total+5; echo number_format($montopagar, 2);?></span>
                 </div>
               </div>
               <button type="button" id="btn_pagar"  class="btn btn-primary btn-lg w-100">Confirmar pago</button>
