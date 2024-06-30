@@ -3,25 +3,7 @@ include '../template/navbar_admin.php'; // Incluir el archivo de conexión a la 
 
 ?>
 
-<style>
-    /* Estilos para el contenedor de la ventana emergente */
-    #confirmationDialog {
-        position: fixed;
-        top: 0;
-        left: 0;
-        z-index: 1050;
-        display: none;
-        width: 100%;
-        height: 100%;
-        overflow: hidden;
-        outline: 0;
-    }
-
-    /* Estilos para el botón "Eliminar" */
-    #deleteButton {
-        margin-left: 10px;
-    }
-</style>
+<link rel="stylesheet" href="../../Assets/css/categorias.css">
 
 <!-- Page title-->
 <div class="border-bottom pt-5 mt-2 mb-5">
@@ -59,7 +41,7 @@ include '../template/navbar_admin.php'; // Incluir el archivo de conexión a la 
 
     <div class="card-body">
         <form class="form-inline pt-2" id="searchForm">
-            <input class="form-control mb-3 mr-sm-4" type="text" id="inline-form-input-name" placeholder="Buscar por nombre">
+            <input class="form-control mb-3 mr-sm-4" type="text" id="inline-form-input-name" placeholder="Buscar por nombre"  onkeyup="buscarCategoria()">
             <div class="input-group-append">
                 <span class="input-group-text" style="background-color: transparent; border: none; padding: 0;">
                     <i class="cxi-search font-size-sm" style="
@@ -203,52 +185,7 @@ include '../template/navbar_admin.php'; // Incluir el archivo de conexión a la 
 </script>
 
 <script>
-    // Función para realizar la búsqueda por AJAX y actualizar el tbody
-    function searchCategorias() {
-        var searchTerm = document.getElementById("inline-form-input-name").value;
-
-        $.ajax({
-            url: "ver_categorias.php",
-            type: "POST",
-            data: {
-                buscar_categoria: true,
-                nombre: searchTerm
-            },
-            dataType: "json",
-            success: function(data) {
-                var tbody = document.getElementById("categoriasTableBody");
-                tbody.innerHTML = "";
-
-                if (data.length > 0) {
-                    // Inicializar un contador para mostrar el número de categoría en orden ascendente
-                    var contadorCategorias = 1;
-
-                    for (var i = 0; i < data.length; i++) {
-                        var categoria = data[i];
-                        var row = '<tr>' +
-                            '<th scope="row">' + contadorCategorias + '</th>' +
-                            '<td>' + categoria.nombre + '</td>' +
-                            '<td><img src="' + categoria.imagen + '" alt="Imagen de categoria" width="50"></td>' +
-                            '<td>' +
-                            '<button class="btn btn-outline-secondary btn-sm editar-categoria" data-id="' + categoria.id + '">Editar</button>' +
-                            '<form method="post" style="display: inline-block;">' +
-                            '<input type="hidden" name="categoria_id" value="' + categoria.id + '">' +
-                            '<button type="button" class="btn btn-outline-danger btn-sm" onclick="showConfirmationDialog(' + categoria.id + ')">Eliminar</button>' +
-                            '</form>' +
-                            '</td>' +
-                            '</tr>';
-
-                        tbody.innerHTML += row;
-
-                        // Incrementar el contador de categorías
-                        contadorCategorias++;
-                    }
-                } else {
-                    tbody.innerHTML = '<tr><td colspan="4">No se encontraron categorías.</td></tr>';
-                }
-            }
-        });
-    }
+    
 
     // Evento para realizar la búsqueda al escribir en el campo de búsqueda
     document.getElementById("inline-form-input-name").addEventListener("input", function() {
@@ -269,6 +206,7 @@ include '../template/navbar_admin.php'; // Incluir el archivo de conexión a la 
 
 <!-- Main theme script-->
 <script src="../../Assets/js/theme.min.js"></script>
+<script src="../../Assets/js/buscartabla.js" ></script>
 </body>
 
 </html>

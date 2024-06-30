@@ -91,7 +91,7 @@
         // Recorrer los resultados y almacenar las rutas de las imágenes en el arreglo
         while ($row = mysqli_fetch_assoc($result)) {
           $rutaImagen = $row['imagen'];
-          $rutasImagenes[] = './admin/' . $rutaImagen;
+          $rutasImagenes[] = './Assets/' . $rutaImagen;
         }
       } else {
         // Mostrar mensaje de error si la consulta falla

@@ -59,7 +59,7 @@ include '../template/navbar_admin.php'; // Incluir el archivo de conexión a la 
 
     <div class="card-body">
         <form class="form-inline pt-2" id="searchForm">
-            <input class="form-control mb-3 mr-sm-4" type="text" id="inline-form-input-name" placeholder="Buscar por nombre">
+            <input class="form-control mb-3 mr-sm-4" type="text" id="inline-form-input-name" placeholder="Buscar por nombre" onkeyup="buscarsubCategoria()">
             <span class="input-group-text" style="background-color: transparent; border: none; padding: 0;">
                 <i class="cxi-search font-size-sm" style="
                             padding-left: 10px;
@@ -206,56 +206,7 @@ include '../template/navbar_admin.php'; // Incluir el archivo de conexión a la 
 </script>
 
 <script>
-    function searchsubcategorias() {
-        var searchTerm = document.getElementById("inline-form-input-name").value;
-
-        $.ajax({
-            url: "ver_subcategorias.php",
-            type: "POST",
-            data: {
-                buscar_subcategoria: true,
-                nombre: searchTerm
-            },
-            dataType: "json",
-            success: function(data) {
-                var tbody = document.getElementById("SubcategoriasTableBody");
-                tbody.innerHTML = "";
-
-                if (data.length > 0) {
-
-                    var contadorsubcategorias = 1;
-
-                    for (var i = 0; i < data.length; i++) {
-                        var subcategoria = data[i];
-                        var row = '<tr>' +
-                            '<th scope="row">' + contadorsubcategorias + '</th>' +
-                            '<td>' + subcategoria.subcategoria + '</td>' +
-                            '<td>' + (subcategoria.categoria ? subcategoria.categoria : 'Sin definir') + '</td>' +
-                            '<td>' +
-                            '<button class="btn btn-outline-secondary btn-sm editar-subcategoria" data-id="' + subcategoria.id + '">Editar</button>' +
-                            '<form method="post" style="display: inline-block;">' +
-                            '<input type="hidden" name="subcategoria_id" value="' + subcategoria.id + '">' +
-                            '<button type="button" class="btn btn-outline-danger btn-sm" onclick="showConfirmationDialog(' + subcategoria.id + ')">Eliminar</button>' +
-                            '</form>' +
-                            '</td>' +
-                            '</tr>';
-
-                        tbody.innerHTML += row;
-
-                        // Incrementar el contador de categorías
-                        contadorsubcategorias++;
-                    }
-                } else {
-                    tbody.innerHTML = '<tr><td colspan="4">No se encontraron subcategorías.</td></tr>';
-                }
-            },
-            error: function() {
-                // Manejar errores en caso de que ocurra alguno durante la solicitud AJAX
-                var tbody = document.getElementById("SubcategoriasTableBody");
-                tbody.innerHTML = '<tr><td colspan="4">Error al cargar los datos.</td></tr>';
-            }
-        });
-    }
+    
 
     // Evento para realizar la búsqueda al escribir en el campo de búsqueda
     document.getElementById("inline-form-input-name").addEventListener("input", function() {
@@ -276,6 +227,8 @@ include '../template/navbar_admin.php'; // Incluir el archivo de conexión a la 
 
 <!-- Main theme script-->
 <script src="../../Assets/js/theme.min.js"></script>
+<script src="../../Assets/js/buscartabla.js" ></script>
+
 
 </body>
 

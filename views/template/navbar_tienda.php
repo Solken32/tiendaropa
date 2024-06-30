@@ -493,38 +493,38 @@ while ($row = mysqli_fetch_assoc($result)) {
 
               // Mostrar el menú desplegable de usuario
               echo '<div class="dropdown">
-            <a href="#" class="topbar-link dropdown-toggle d-lg-inline-block d-none ml-4 pl-1 text-decoration-none text-nowrap" data-toggle="dropdown">
-                <i class="cxi-profile mr-1 font-size-base align-middle"></i>
-                ' . $username . '
-            </a>
-            <div class="dropdown-menu dropdown-menu-right">
-            <a href="account-profile.php" class="dropdown-item d-flex align-items-center">
-              <i class="cxi-profile font-size-base mr-2"></i>
-              <span>Mi Perfil</span>
-            </a>
-            <a href="account-orders.php" class="dropdown-item d-flex align-items-center">
-              <i class="cxi-bag font-size-base mr-2"></i>
-              <span>Mis Pedidos</span>
-            </a>
-            <a href="account-wishlist.php" class="dropdown-item d-flex align-items-center">
-              <i class="cxi-heart font-size-base mr-2"></i>
-              <span>Favoritos</span>
-              <span class="badge badge-warning ml-auto">2</span>
-            </a>
-            <a href="account-recently-viewed.php" class="dropdown-item d-flex align-items-center">
-              <i class="cxi-eye font-size-base mr-2"></i>
-              <span>Vistos recientemente</span>
-            </a>
-            <a href="account-reviews.php" class="dropdown-item d-flex align-items-center">
-              <i class="cxi-star font-size-base mr-2"></i>
-              <span>Mis Reseñas</span>
-            </a>
-            <div class="dropdown-divider"></div>
-            <a href="?logout=1" class="dropdown-item d-flex align-items-center">
-            <i class="cxi-logout font-size-base mr-2"></i>
-            <span>Cerrar Sesión</span>
-            </a>
-          </div>
+              <a href="#" class="topbar-link dropdown-toggle d-lg-inline-block d-none ml-4 pl-1 text-decoration-none text-nowrap" data-toggle="dropdown">
+                  <i class="cxi-profile mr-1 font-size-base align-middle"></i>
+                  ' . $username . '
+              </a>
+              <div class="dropdown-menu dropdown-menu-right">
+              <a href="account-profile.php" class="dropdown-item d-flex align-items-center">
+                <i class="cxi-profile font-size-base mr-2"></i>
+                <span>Mi Perfil</span>
+              </a>
+              <a href="account-orders.php" class="dropdown-item d-flex align-items-center">
+                <i class="cxi-bag font-size-base mr-2"></i>
+                <span>Mis Pedidos</span>
+              </a>
+              <a href="account-wishlist.php" class="dropdown-item d-flex align-items-center">
+                <i class="cxi-heart font-size-base mr-2"></i>
+                <span>Favoritos</span>
+                <span class="badge badge-warning ml-auto">2</span>
+              </a>
+              <a href="account-recently-viewed.php" class="dropdown-item d-flex align-items-center">
+                <i class="cxi-eye font-size-base mr-2"></i>
+                <span>Vistos recientemente</span>
+              </a>
+              <a href="account-reviews.php" class="dropdown-item d-flex align-items-center">
+                <i class="cxi-star font-size-base mr-2"></i>
+                <span>Mis Reseñas</span>
+              </a>
+              <div class="dropdown-divider"></div>
+              <a href="?logout=1" class="dropdown-item d-flex align-items-center">
+              <i class="cxi-logout font-size-base mr-2"></i>
+              <span>Cerrar Sesión</span>
+              </a>
+            </div>
         </div>';
             }
             // No es necesario usar else ya que si no hay una coincidencia en la base de datos, simplemente no se mostrará el menú.
@@ -538,7 +538,7 @@ while ($row = mysqli_fetch_assoc($result)) {
 
 
           ?>
-          <a href="<?php echo BASE_URL;?>views/admin/loginconf.php"class="topbar-link d-lg-inline-block d-none ml-4 pl-1 text-decoration-none text-nowrap">
+          <a href="<?php echo BASE_URL;?>views/admin/loginconf.php"class="topbar-link ">
             <i class="cxi-profile mr-1 font-size-base align-middle"></i>
             Admin
           </a>
@@ -678,17 +678,20 @@ while ($row = mysqli_fetch_assoc($result)) {
                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Información</a>
                 <ul class="dropdown-menu">
                   <li><a href="<?php echo VIEWSTIENDA_PATH; ?>contacto.php" class="dropdown-item">Contactanos</a></li>
-                  <li><a href="order-tracking.php" class="dropdown-item">Seguimiento del pedido</a></li>
+                  
                 </ul>
               </li>
 
               <!--modificar pa cel-->
 
               <li class="nav-item dropdown d-md-none">
-                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
+                <a href="#" class="nav-link" data-toggle="dropdown"  onclick="openModal(); return false">
                   <i class="cxi-profile font-size-base align-middle mr-1"></i>
-                  User 1
+                  Iniciar sesión/Registrarse
                 </a>
+              </li>
+
+                <!--
                 <ul class="dropdown-menu">
                   <li>
                     <a href="account-profile.php" class="dropdown-item d-flex align-items-center">
@@ -725,8 +728,8 @@ while ($row = mysqli_fetch_assoc($result)) {
                       <i class="cxi-logout font-size-base mr-2"></i>
                       <span>Cerrar Sesión</span>
                     </a>
-                  </li>
-                </ul>
+                  </li> 
+                </ul> -->
               </li>
 
 

@@ -60,7 +60,7 @@ include '../template/navbar_admin.php'; // Incluir el archivo de conexión a la 
     <div class="card-body">
         <form class="form-inline pt-2" id="searchForm">
             <div class="input-group">
-                <input class="form-control mb-3 mr-sm-2" type="text" id="inline-form-input-name" placeholder="Buscar por nombre">
+                <input class="form-control mb-3 mr-sm-2" type="text" id="inline-form-input-name" placeholder="Buscar por nombre " onkeyup="buscarproductos()">
                 <div class="input-group-append">
                     <span class="input-group-text" style="background-color: transparent; border: none; padding: 0;">
                         <i class="cxi-search font-size-sm" style="
@@ -232,74 +232,7 @@ include '../template/navbar_admin.php'; // Incluir el archivo de conexión a la 
 </script>
 
 <script>
-    function searchProductos() {
-        var searchTerm = document.getElementById("inline-form-input-name").value;
-
-        $.ajax({
-            url: "ver_productos.php",
-            type: "POST",
-            data: {
-                buscar_producto: true,
-                nombre: searchTerm
-            },
-            dataType: "json",
-            success: function(data) {
-                var tbody = document.getElementById("ProductosTableBody");
-                tbody.innerHTML = "";
-
-                if (data.length > 0) {
-                    var contadorProductos = 1;
-
-                    for (var i = 0; i < data.length; i++) {
-                        var producto = data[i];
-                        var imagenUrl = producto.imagenes + '/' + producto.producto.replace(/ /g, "_") + '_1.png';
-
-                        // Verificar si la imagen existe en el directorio
-                        var img = new Image();
-                        img.src = imagenUrl;
-                        img.onload = function() {
-                            // Si la imagen existe, mostrarla
-                            var imgElement = '<img src="' + img.src + '" width="50" height="50" alt="' + producto.producto + '">';
-                            document.getElementById('img-' + producto.id).innerHTML = imgElement;
-                        };
-                        img.onerror = function() {
-                            // Si la imagen no existe, mostrar la imagen predeterminada
-                            var defaultImgElement = '<img src="./assets/img/productos_img/default.png" width="50" height="50" alt="' + producto.producto + '">';
-                            document.getElementById('img-' + producto.id).innerHTML = defaultImgElement;
-                        };
-
-                        var row = '<tr>' +
-                            '<th scope="row">' + contadorProductos + '</th>' +
-                            '<td>' + producto.producto + '</td>' +
-                            '<td><img src="' + img.src + '" width="50" height="50" alt="' + producto.producto + '"></td>' +
-                            '<td>' + (producto.categoria ? producto.categoria : 'Sin definir') + '</td>' +
-                            '<td>' + producto.subcategoria + '</td>' +
-                            '<td>' + producto.marca + '</td>' +
-                            '<td>' +
-                            '<button class="btn btn-outline-secondary btn-sm editar-producto" data-id="' + producto.id + '">Editar</button>' +
-                            '<form method="post" style="display: inline-block;">' +
-                            '<input type="hidden" name="producto_id" value="' + producto.id + '">' +
-                            '<button type="button" class="btn btn-outline-danger btn-sm" onclick="showConfirmationDialog(' + producto.id + ')">Eliminar</button>' +
-                            '</form>' +
-                            '</td>' +
-                            '</tr>';
-
-                        tbody.innerHTML += row;
-
-                        // Incrementar el contador de categorías
-                        contadorProductos++;
-                    }
-                } else {
-                    tbody.innerHTML = '<tr><td colspan="7">No se encontraron productos.</td></tr>';
-                }
-            },
-            error: function() {
-                // Manejar errores en caso de que ocurra alguno durante la solicitud AJAX
-                var tbody = document.getElementById("ProductosTableBody");
-                tbody.innerHTML = '<tr><td colspan="7">Error al cargar los datos.</td></tr>';
-            }
-        });
-    }
+    
 
     // Evento para realizar la búsqueda al escribir en el campo de búsqueda
     document.getElementById("inline-form-input-name").addEventListener("input", function() {
@@ -321,6 +254,7 @@ include '../template/navbar_admin.php'; // Incluir el archivo de conexión a la 
 
 <!-- Main theme script-->
 <script src="../../Assets/js/theme.min.js"></script>
+<script src="../../Assets/js/buscartabla.js" ></script>
 
 </body>
 

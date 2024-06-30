@@ -60,7 +60,7 @@ include '../template/navbar_admin.php'; // Incluir el archivo de conexión a la 
 
     <div class="card-body">
         <form class="form-inline pt-2" id="searchForm">
-            <input class="form-control mb-3 mr-sm-4" type="text" id="inline-form-input-name" placeholder="Buscar por nombre">
+            <input class="form-control mb-3 mr-sm-4" type="text" id="inline-form-input-name" placeholder="Buscar por nombre" onkeyup="buscarmarcas()">
             <div class="input-group-append">
                 <span class="input-group-text" style="background-color: transparent; border: none; padding: 0;">
                     <i class="cxi-search font-size-sm" style="
@@ -201,52 +201,7 @@ include '../template/navbar_admin.php'; // Incluir el archivo de conexión a la 
 </script>
 
 <script>
-    // Función para realizar la búsqueda por AJAX y actualizar el tbody
-    function searchmarcas() {
-        var searchTerm = document.getElementById("inline-form-input-name").value;
-
-        $.ajax({
-            url: "ver_marcas.php",
-            type: "POST",
-            data: {
-                buscar_marca: true,
-                nombre: searchTerm
-            },
-            dataType: "json",
-            success: function(data) {
-                var tbody = document.getElementById("marcasTableBody");
-                tbody.innerHTML = "";
-
-                if (data.length > 0) {
-
-                    var contadorMarca = 1;
-
-                    for (var i = 0; i < data.length; i++) {
-                        var marca = data[i];
-                        var row = '<tr>' +
-                            '<th scope="row">' + contadorMarca + '</th>' +
-                            '<td>' + marca.nombre + '</td>' +
-                            '<td><img src="' + marca.imagen + '" alt="Imagen de marca" width="50"></td>' +
-                            '<td>' +
-                            '<button class="btn btn-outline-secondary btn-sm editar-marca" data-id="' + marca.id + '">Editar</button>' +
-                            '<form method="post" style="display: inline-block;">' +
-                            '<input type="hidden" name="marca_id" value="' + marca.id + '">' +
-                            '<button type="button" class="btn btn-outline-danger btn-sm" onclick="showConfirmationDialog(' + marca.id + ')">Eliminar</button>' +
-                            '</form>' +
-                            '</td>' +
-                            '</tr>';
-
-                        tbody.innerHTML += row;
-
-                        // Incrementar el contador de categorías
-                        contadorMarca++;
-                    }
-                } else {
-                    tbody.innerHTML = '<tr><td colspan="4">No se encontraron marcas.</td></tr>';
-                }
-            }
-        });
-    }
+    
 
     // Evento para realizar la búsqueda al escribir en el campo de búsqueda
     document.getElementById("inline-form-input-name").addEventListener("input", function() {
@@ -268,6 +223,7 @@ include '../template/navbar_admin.php'; // Incluir el archivo de conexión a la 
 
 <!-- Main theme script-->
 <script src="../../Assets/js/theme.min.js"></script>
+<script src="../../Assets/js/buscartabla.js" ></script>
 </body>
 
 </html>
