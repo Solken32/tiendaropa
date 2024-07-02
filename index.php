@@ -1,20 +1,7 @@
       <!-- HTML + navbar -->
-      
-      <?php 
-      
-      include 'config/config.php';
-      include BASE_PATH . 'config/conexion.php';
-      include TEMPLATE_PATH . 'navbar_tienda.php';
-      
-      
-      //include TEMPLATE_PATH. 'navbar_tienda.php';
-      
-      ?>
-      
+      <?php include 'navbar.php';
 
-      <?php 
-
-  // Consultar los datos de la tabla "tiendaconfig"
+      // Consultar los datos de la tabla "tiendaconfig"
       $sql = "SELECT * FROM tiendaconfig";
       $result = $conn->query($sql);
 
@@ -91,7 +78,7 @@
         // Recorrer los resultados y almacenar las rutas de las imágenes en el arreglo
         while ($row = mysqli_fetch_assoc($result)) {
           $rutaImagen = $row['imagen'];
-          $rutasImagenes[] = './Assets/' . $rutaImagen;
+          $rutasImagenes[] = './Assets' . $rutaImagen;
         }
       } else {
         // Mostrar mensaje de error si la consulta falla
@@ -126,14 +113,14 @@
         }'>
 
           <!-- Slide 1 -->
-          <div class="bg-size-cover py-xl-6" style="background-image: url(<?php echo BASE_URL;?>assets_tienda/img/ecommerce/home/hero-slider/banner1.jpg);">
+          <div class="bg-size-cover py-xl-6" style="background-image: url(assets_tienda/img/ecommerce/home/hero-slider/banner1.jpg);">
             <div class="container pt-5 pb-6">
               <div class="row pb-lg-6">
                 <div class="col-lg-6 offset-lg-1 offset-xl-0 pb-4 pb-md-6">
                   <h3 class="font-size-lg text-uppercase cs-from-left cs-delay-1" style="color:white; text-shadow: 4px 0px 3px rgba(0, 0, 0, 0.85);">Bienvenido a</h3>
                   <h2 class="display-2 mb-lg-5 pb-3 cs-from-left" style="color:white; text-shadow: 4px 0px 3px rgba(0, 0, 0, 0.85);"><?php echo $nombre_tienda; ?></h2>
                   <div class="mb-4 cs-scale-up cs-delay-2">
-                    <a href="<?php echo VIEWSTIENDA_PATH; ?>catalogo.php" class="btn btn-primary btn-lg">Ver Catálogo</a>
+                    <a href="catalogo.php" class="btn btn-primary btn-lg">Ver Catálogo</a>
                   </div>
                 </div>
               </div>
@@ -141,7 +128,7 @@
           </div>
 
           <!-- Slide 2 -->
-          <div class="bg-size-cover py-xl-6" style="background-image: url(assets/img/ecommerce/home/hero-slider/banner2.jpg);">
+          <div class="bg-size-cover py-xl-6" style="background-image: url(assets_tienda/img/ecommerce/home/hero-slider/banner2.jpg);">
             <div class="container pt-5 pb-6">
               <div class="row pb-lg-6">
                 <div class="col-lg-6 offset-lg-1 offset-xl-0 pb-4 pb-md-6">
@@ -166,7 +153,7 @@
           </div>
 
           <!-- Slide 3 -->
-          <div class="bg-size-cover py-xl-6" style="background-image: url(assets/img/ecommerce/home/hero-slider/banner3.jpg);">
+          <div class="bg-size-cover py-xl-6" style="background-image: url(assets_tienda/img/ecommerce/home/hero-slider/banner3.jpg);">
             <div class="container pt-5 pb-6">
               <div class="row pb-lg-6">
                 <div class="col-lg-6 offset-lg-1 offset-xl-0 pb-4 pb-md-6">
@@ -181,7 +168,7 @@
           </div>
 
           <!-- Slide 4 -->
-          <div class="bg-size-cover py-xl-6" style="background-image: url(assets/img/ecommerce/home/hero-slider/banner4.jpg);">
+          <div class="bg-size-cover py-xl-6" style="background-image: url(assets_tienda/img/ecommerce/home/hero-slider/banner4.jpg);">
             <div class="container pt-5 pb-6">
               <div class="row pb-lg-6">
                 <div class="col-lg-6 offset-lg-1 offset-xl-0 pb-4 pb-md-6">
@@ -218,7 +205,7 @@
         <div class="text-center mb-5 pb-2">
           <h2 class="h1">Nuevos productos</h2>
           <p class="font-size-lg text-muted mb-1">Hecha un vistazo a nuestras últimas novedades de esta temporada</p>
-          <a href="<?php echo VIEWSTIENDA_PATH; ?>catalogo.php" class="font-size-lg">Ver la colección aqui</a>
+          <a href="catalogo.php" class="font-size-lg">Ver la colección aqui</a>
         </div>
 
         <!-- Product carousel -->
@@ -266,8 +253,8 @@
                       // Obtener la carpeta del producto y el nombre de la imagen con el formato correcto
                       $nombreCarpeta = str_replace(' ', '_', $producto['nombre']);
                       $nombreImagen = $nombreCarpeta . '_1.png';
-                      $rutaImagen = "<?php echo BASE_URL; ?>Assets/img/productos_img/$nombreCarpeta/$nombreImagen";
-                      $rutaImagenDefault = "<?php echo BASE_URL; ?>Assets/img/productos_img/default.png";
+                      $rutaImagen = "./Assets/img/productos_img/$nombreCarpeta/$nombreImagen";
+                      $rutaImagenDefault = "./Assets/img/productos_img/default.png";
 
                       // Verificar si la imagen en la ruta existe
                       if (file_exists($rutaImagen)) {
@@ -276,7 +263,7 @@
                         $imagenMostrar = $rutaImagenDefault;
                       }
                       ?>
-                      <a href="<?php echo BASE_URL;?>views/tienda/detalle-producto.php?id=<?php echo $producto['id']; ?>" class="card-img-top">
+                      <a href="detalle-producto.php?id=<?php echo $producto['id']; ?>" class="card-img-top">
                         <img src="<?php echo $rutaImagen; ?>" alt="Product image">
                       </a>
                       <div class="card-product-widgets-top">
@@ -304,7 +291,7 @@
                     </div>
                     <div class="card-body">
                       <h3 class="card-product-title text-truncate mb-2">
-                        <a href="<?php echo BASE_URL; ?>views/tienda/detalle-producto.php?id=<?php echo $producto['id']; ?>" class="nav-link"><?php echo $producto['nombre']; ?></a>
+                        <a href="detalle-producto.php?id=<?php echo $producto['id']; ?>" class="nav-link"><?php echo $producto['nombre']; ?></a>
                       </h3>
                       <div class="d-flex align-items-center">
                         <span class="h5 d-inline-block mb-0 precio-span">
@@ -376,7 +363,7 @@
           <div class="col-lg-12 px-2 mb-3">
             <?php
             // Generar la ruta completa de la imagen
-            $rutaImagen = '<?php echo BASE_URL; ?>Assets/img/categoria_img/' . $firstCategory['categoria_imagen'];
+            $rutaImagen = './Assets/' . $firstCategory['categoria_imagen'];
             ?>
             <div class="d-flex flex-column h-100 bg-size-cover bg-position-center-y rounded py-5 px-md-5 px-4" style="background-image: url(<?php echo $rutaImagen; ?>);">
               <div class="mt-md-3 mb-md-6 pb-6 px-md-2" style="max-width: 22rem;">
@@ -415,7 +402,7 @@
                   <div class="cs-image-inner rounded-circle mx-auto mb-4" style="max-width: 180px;">
                     <?php
                     // Generar la ruta completa de la imagen
-                    $rutaImagen = '<?php echo BASE_URL; ?>Assets/img/categoria_img/' . $categoria['imagen'];
+                    $rutaImagen = '' . $categoria['imagen'];
                     ?>
                     <img src="<?php echo $rutaImagen; ?>" alt="<?php echo $categoria['nombre']; ?> image" draggable="false">
                   </div>
@@ -472,7 +459,7 @@
                 <div class="card card-product mx-auto">
                   <div class="card-product-img">
                     <a href="shop-single.php" class="card-img-top">
-                      <img src="assets_tienda/img/ecommerce/shop/01.jpg" alt="Product image" draggable="false">
+                      <img src="assets/img/ecommerce/shop/01.jpg" alt="Product image" draggable="false">
                     </a>
                     <div class="card-product-widgets-top">
                       <div class="star-rating ml-auto">
@@ -503,7 +490,7 @@
                 <div class="card card-product mx-auto">
                   <div class="card-product-img">
                     <a href="shop-single.php" class="card-img-top">
-                      <img src="assets_tienda/img/ecommerce/shop/07.jpg" alt="Product image" draggable="false">
+                      <img src="assets/img/ecommerce/shop/07.jpg" alt="Product image" draggable="false">
                     </a>
                     <div class="card-product-widgets-top">
                       <div class="star-rating ml-auto">
@@ -534,7 +521,7 @@
                 <div class="card card-product mx-auto">
                   <div class="card-product-img">
                     <a href="shop-single.php" class="card-img-top">
-                      <img src="assets_tienda/img/ecommerce/shop/05.jpg" alt="Product image">
+                      <img src="assets/img/ecommerce/shop/05.jpg" alt="Product image">
                     </a>
                     <div class="card-product-widgets-bottom">
                       <a href="#" class="btn-wishlist ml-auto" data-toggle="tooltip" data-placement="left" title="Añadir a favoritos"></a>
@@ -556,7 +543,7 @@
                 <div class="card card-product mx-auto">
                   <div class="card-product-img">
                     <a href="shop-single.php" class="card-img-top">
-                      <img src="<?php echo BASE_URL; ?>assets_tienda/img/ecommerce/shop/12.jpg" alt="Product image">
+                      <img src="assets/img/ecommerce/shop/12.jpg" alt="Product image">
                     </a>
                     <div class="card-product-widgets-bottom">
                       <a href="#" class="btn-wishlist ml-auto" data-toggle="tooltip" data-placement="left" title="Añadir a favoritos"></a>
@@ -578,7 +565,7 @@
                 <div class="card card-product mx-auto">
                   <div class="card-product-img">
                     <a href="shop-single.php" class="card-img-top">
-                      <img src="assets_tienda/img/ecommerce/shop/06.jpg" alt="Product image" draggable="false">
+                      <img src="assets/img/ecommerce/shop/06.jpg" alt="Product image" draggable="false">
                     </a>
                     <div class="card-product-widgets-top">
                       <div class="star-rating ml-auto">
@@ -654,7 +641,7 @@
               <div class="card card-product mx-auto">
                 <div class="card-product-img">
                   <a href="shop-single.php" class="card-img-top">
-                    <img src="assets_tienda/img/ecommerce/shop/11.jpg" alt="Product image" draggable="false">
+                    <img src="assets/img/ecommerce/shop/11.jpg" alt="Product image" draggable="false">
                   </a>
                   <div class="card-product-widgets-top">
                     <span class="badge product-badge badge-danger">-50%</span>
@@ -687,7 +674,7 @@
               <div class="card card-product mx-auto">
                 <div class="card-product-img">
                   <a href="shop-single.php" class="card-img-top">
-                    <img src="assets_tienda/img/ecommerce/shop/10.jpg" alt="Product image">
+                    <img src="assets/img/ecommerce/shop/10.jpg" alt="Product image">
                   </a>
                   <div class="card-product-widgets-top">
                     <span class="badge product-badge badge-danger">-33%</span>
@@ -713,7 +700,7 @@
               <div class="card card-product mx-auto">
                 <div class="card-product-img">
                   <a href="shop-single.php" class="card-img-top">
-                    <img src="assets_tienda/img/ecommerce/shop/14.jpg" alt="Product image">
+                    <img src="assets/img/ecommerce/shop/14.jpg" alt="Product image">
                   </a>
                   <div class="card-product-widgets-top">
                     <span class="badge product-badge badge-danger">-20%</span>
@@ -746,7 +733,7 @@
               <div class="card card-product mx-auto">
                 <div class="card-product-img">
                   <a href="shop-single.php" class="card-img-top">
-                    <img src="assets_tienda/img/ecommerce/shop/09.jpg" alt="Product image" draggable="false">
+                    <img src="assets/img/ecommerce/shop/09.jpg" alt="Product image" draggable="false">
                   </a>
                   <div class="card-product-widgets-top">
                     <span class="badge product-badge badge-danger">-50%</span>
@@ -779,7 +766,7 @@
               <div class="card card-product mx-auto">
                 <div class="card-product-img">
                   <a href="shop-single.php" class="card-img-top">
-                    <img src="assets_tienda/img/ecommerce/shop/13.jpg" alt="Product image" draggable="false">
+                    <img src="assets/img/ecommerce/shop/13.jpg" alt="Product image" draggable="false">
                   </a>
                   <div class="card-product-widgets-top">
                     <span class="badge product-badge badge-danger">-60%</span>
@@ -811,25 +798,25 @@
         <h2 class="h1 mb-5 pb-3 text-center">Ofrecemos</h2>
         <div class="row py-3">
           <div class="col-sm-6 col-md-3 text-center mb-md-0 mb-4 pb-md-0 pb-3">
-            <img class="mb-4" src="<?php echo BASE_URL; ?>assets_tienda/img/ecommerce/home/services/delivery.svg" width="48" alt="Envío en todo el mundo" draggable="false">
+            <img class="mb-4" src="assets/img/ecommerce/home/services/delivery.svg" width="48" alt="Envío en todo el mundo" draggable="false">
             <h5 class="h5 mb-2">Envío rápido</h5>
             <p class="mb-0 text-muted">Obtén envío gratuito por compras mayores a S/.250</p>
           </div>
           <span class="divider-vertical d-sm-block d-none"></span>
           <div class="col-sm-6 col-md-3 text-center mb-md-0 mb-4 pb-md-0 pb-3">
-            <img class="mb-4" src="<?php echo BASE_URL; ?>assets_tienda/img/ecommerce/home/services/support.svg" width="48" alt="Soporte al cliente" draggable="false">
+            <img class="mb-4" src="assets/img/ecommerce/home/services/support.svg" width="48" alt="Soporte al cliente" draggable="false">
             <h5 class="h5 mb-2">Soporte al cliente 24/7</h5>
             <p class="mb-0 text-muted">Amigable soporte al cliente las 24 horas, los 7 días de la semana</p>
           </div>
           <span class="divider-vertical d-sm-block d-none"></span>
           <div class="col-sm-6 col-md-3 text-center mb-md-0 mb-4 pb-md-0 pb-3">
-            <img class="mb-4" src="<?php echo BASE_URL; ?>assets_tienda/img/ecommerce/home/services/guarantee.svg" width="48" alt="Garantía de devolución de dinero" draggable="false">
+            <img class="mb-4" src="assets/img/ecommerce/home/services/guarantee.svg" width="48" alt="Garantía de devolución de dinero" draggable="false">
             <h5 class="h5 mb-2">Garantía de devolución</h5>
             <p class="mb-0 text-muted">Devolvemos el dinero en un plazo de 30 días</p>
           </div>
           <span class="divider-vertical d-sm-block d-none"></span>
           <div class="col-sm-6 col-md-3 text-center mb-md-0 mb-4 pb-md-0 pb-3">
-            <img class="mb-4" src="<?php echo BASE_URL; ?>assets_tienda/img/ecommerce/home/services/payment.svg" width="48" alt="Pago seguro en línea" draggable="false">
+            <img class="mb-4" src="assets/img/ecommerce/home/services/payment.svg" width="48" alt="Pago seguro en línea" draggable="false">
             <h5 class="h5 mb-2">Pago seguro en línea</h5>
             <p class="mb-0 text-muted">Aceptamos todas las principales tarjetas de crédito</p>
           </div>
@@ -862,15 +849,15 @@
                 }'>
                   <!-- Image -->
                   <div>
-                    <img src="<?php echo BASE_URL; ?>assets_tienda/img/ecommerce/home/hero-slider/banner1.jpg" alt="Image" draggable="false" style="width: 202px; height: 269.33px;">
+                    <img src="assets_tienda/img/ecommerce/home/hero-slider/banner1.jpg" alt="Image" draggable="false" style="width: 202px; height: 269.33px;">
                   </div>
                   <!-- Image -->
                   <div>
-                    <img src="<?php echo BASE_URL; ?>assets_tienda/img/ecommerce/home/hero-slider/banner2.jpg" alt="Image" draggable="false" style="width: 202px; height: 269.33px;">
+                    <img src="assets_tienda/img/ecommerce/home/hero-slider/banner2.jpg" alt="Image" draggable="false" style="width: 202px; height: 269.33px;">
                   </div>
                   <!-- Image -->
                   <div>
-                    <img src="<?php echo BASE_URL; ?>assets_tienda/img/ecommerce/home/hero-slider/banner4.jpg" alt="Image" draggable="false" style="width: 202px; height: 269.33px;">
+                    <img src="assets_tienda/img/ecommerce/home/hero-slider/banner4.jpg" alt="Image" draggable="false" style="width: 202px; height: 269.33px;">
                   </div>
                 </div>
               </div>
@@ -923,4 +910,4 @@
 
 
       <!-- Footer -->
-      <?php include TEMPLATE_PATH . 'footer_tienda.php';?>
+      <?php include 'footer.php'; ?>
