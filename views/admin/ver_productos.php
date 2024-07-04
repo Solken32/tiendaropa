@@ -1,8 +1,7 @@
-<?php
-include '../../config/config.php';
-include BASE_PATH . 'config/conexion.php';
-include '../template/header_admin.php';
+<?php include '../../config/config.php';
+include BASE_PATH . 'config/conexion.php'; ?>
 
+<?php
 
 if (isset($_POST['buscar_producto'])) {
     $nombre = $_POST['nombre'];
@@ -37,8 +36,7 @@ if (isset($_POST['buscar_producto'])) {
 
 // El resto del código de "ver_Subcategorias.php" para mostrar las categorías en la página:
 
-// Iniciar la sesión
-session_start();
+
 echo '<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">';
 
 // Verificar si se ha enviado el formulario para eliminar la categoría
@@ -111,9 +109,5 @@ if (isset($_POST['eliminar_producto'])) {
         // Concatenar las tallas seleccionadas en un solo texto, separado por comas
         $tallasSeleccionadas = implode(', ', $tallasSeleccionadas);
       }
-
-
 }
-
-include 'productos.php';
 ?>

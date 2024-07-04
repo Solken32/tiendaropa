@@ -1,142 +1,99 @@
+<?php include '../template/navbar_admin.php'; ?>
+<?php include 'cuentaconf.php'; ?>
 
-<?php
-include '../template/navbar_admin.php';
-?>
-          <!-- Page title-->
-          <div class="border-bottom pt-5 mt-2 mb-5">
-              <h1 class="mt-2 mt-md-4 mb-3 pt-5">TÚ PERFIL</h1>
-              <div class="d-flex flex-wrap flex-md-nowrap justify-content-between">
-                <p class="text-muted">Aquí puedes modificar tus datos</p>
-              </div>
-          </div>
+<div class="container ">
+<div class="container mt-5 mx-auto">
+    <!-- Page title-->
+    <div class="border-bottom text-center">
+        <h1 class="mt-2 mt-md-4 mb-3 pt-3">TÚ PERFIL</h1>
+        <p class="text-muted">Aquí puedes modificar tus datos</p>
+    </div>
 
-          <div class="card box-shadow-sm">
-              <div class="card-header">
-                  <h5 style="margin-bottom: 0px;">MODIFICAR DATOS</h5>
-              </div>
-
-              <div class="card-body">
-                  <form id="updateForm" method="POST" enctype="multipart/form-data">
-                      <div class="form-group">
-                          <label for="nombre">Nombre:</label>
-                          <input type="text" class="form-control" id="nombre" name="nombre" value="<?php echo $nombreUsuario; ?>" >
-                      </div>
-
-                      <div class="form-group">
-                          <label for="apellido">Apellido:</label>
-                          <input type="text" class="form-control" id="apellido" name="apellido" value="<?php echo $apellidoUsuario; ?>" >
-                      </div>
-
-                      <div class="form-group">
-                          <label for="correo">Correo electrónico:</label>
-                          <input type="email" class="form-control" id="correo" name="correo" value="<?php echo $emailUsuario; ?>" >
-                      </div>
-
-                      <div class="form-group">
-                          <label for="register-password" class="form-label">Nueva contraseña</label>
-                          <div class="cs-password-toggle input-group-overlay">
-                              <input type="password" class="form-control appended-form-control" id="register-password" name="password" placeholder="Ingresa tú contraseña">
-                              <div class="input-group-append-overlay">
-                                  <label class="btn cs-password-toggle-btn input-group-text">
-                                      <input type="checkbox" class="custom-control-input">
-                                      <i class="cxi-eye cs-password-toggle-indicator"></i>
-                                      <span class="sr-only">Mostrar contraseña</span>
-                                  </label>
-                              </div>
-                          </div>
-                      </div>
-
-                      <div class="form-group">
-                          <label for="register-confirm-password" class="form-label">Confirmar nueva contraseña</label>
-                          <div class="cs-password-toggle input-group-overlay">
-                              <input type="password" class="form-control appended-form-control" id="register-confirm-password" name="confirm_password" placeholder="Confirmar tú nueva contraseña">
-                              <div class="input-group-append-overlay">
-                                  <label class="btn cs-password-toggle-btn input-group-text">
-                                      <input type="checkbox" class="custom-control-input">
-                                      <i class="cxi-eye cs-password-toggle-indicator"></i>
-                                      <span class="sr-only">Mostrar contraseña</span>
-                                  </label>
-                              </div>
-                          </div>
-                      </div>
-
-                      <div class="form-group">
-                          <label for="foto">Foto de perfil:</label>
-                      </div>
-
-                      <!-- Cuadro para mostrar la imagen de perfil -->
-                      <div class="form-group">
-                          <label for="profile_picture_preview">Vista previa de la imagen de perfil:</label>
-                          <input type="file" class="form-control-file" id="foto" name="foto">
-                          <br>
-                          <div id="profile_picture_preview" style="max-width: 200px; max-height: 200px;">
-                              <?php if ($fotoPerfil) : ?>
-                                  <img src="<?php echo $fotoPerfil; ?>" alt="Imagen de perfil">
-                              <?php else : ?>
-                                  <p>No se ha seleccionado ninguna imagen de perfil.</p>
-                              <?php endif; ?> 
-                          </div>
-                      </div>            
-                      <button type="submit" class="btn btn-primary">Actualizar datos</button>
-                  </form>
-              </div>
-          </div>
-
+    <div class="card box-shadow-sm">
+        <div class="card-header bg-primary text-white">
+            <h5 style="margin-bottom: 0px;">MODIFICAR DATOS</h5>
         </div>
-      </section>
-    </main>
 
-    <!-- Back to top button-->
-    <a class="btn-scroll-top" href="#top" data-scroll data-fixed-element>
-      <span class="btn-scroll-top-tooltip text-muted font-size-sm mr-2"></span>
-      <i class="btn-scroll-top-icon cxi-angle-up"></i>
-    </a>
+        <div class="card-body">
+            <form id="updateForm" method="POST" enctype="multipart/form-data" onsubmit="return validatePasswords(event)">
+                <div class="form-group">
+                    <label for="nombre">Nombre:</label>
+                    <input type="text" class="form-control" id="nombre" name="nombre" value="<?php echo $nombreUsuario; ?>" placeholder="Ingresa tu nombre">
+                </div>
 
-    <!-- Vendor scripts: js libraries and plugins-->
-    <script>
-    document.getElementById("register-password").addEventListener("input", function() {
-        const confirmPasswordField = document.getElementById("register-confirm-password");
-        confirmPasswordField.required = this.value.length > 0;
-    });
-    </script>
+                <div class="form-group">
+                    <label for="apellido">Apellido:</label>
+                    <input type="text" class="form-control" id="apellido" name="apellido" value="<?php echo $apellidoUsuario; ?>" placeholder="Ingresa tu apellido">
+                </div>
 
-    <script>
-        // Código JavaScript para mostrar la imagen de perfil en la vista previa
-        // Este código asume que el elemento "profile_picture_preview" existe en el DOM.
+                <div class="form-group">
+                    <label for="correo">Correo electrónico:</label>
+                    <input type="email" class="form-control" id="correo" name="correo" value="<?php echo $emailUsuario; ?>" placeholder="Ingresa tu correo electrónico">
+                </div>
 
-        // Verificar si hay una imagen de perfil seleccionada y mostrarla en la vista previa
-        var fotoPerfilInput = document.getElementById('foto');
-        var profilePicturePreview = document.getElementById('profile_picture_preview');
+                <div class="form-group">
+                    <label for="register-password" class="form-label">Nueva contraseña</label>
+                    <div class="input-group">
+                        <input type="password" class="form-control" id="register-password" name="password" placeholder="Ingresa tu contraseña">
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-secondary" type="button" onclick="togglePasswordVisibility('register-password')">
+                                <i class="fa fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
 
-        fotoPerfilInput.addEventListener('change', function(event) {
-            var file = event.target.files[0];
-            var reader = new FileReader();
+                <div class="form-group">
+                    <label for="register-confirm-password" class="form-label">Confirmar nueva contraseña</label>
+                    <div class="input-group">
+                        <input type="password" class="form-control" id="register-confirm-password" name="confirm_password" placeholder="Confirma tu nueva contraseña">
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-secondary" type="button" onclick="togglePasswordVisibility('register-confirm-password')">
+                                <i class="fa fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
 
-            reader.onload = function() {
-                var image = new Image();
-                image.src = reader.result;
-                image.alt = 'Imagen de perfil';
-                image.style.maxWidth = '100%';
-                image.style.maxHeight = '100%';
-                profilePicturePreview.innerHTML = '';
-                profilePicturePreview.appendChild(image);
-            };
+                <div class="form-group">
+                    <label for="foto">Foto de perfil:</label>
+                    <input type="file" class="form-control-file" id="foto" name="foto">
+                </div>
 
-            if (file) {
-                reader.readAsDataURL(file);
-            } else {
-                profilePicturePreview.innerHTML = '<p>No se ha seleccionado ninguna imagen de perfil.</p>';
-            }
-        });
-    </script>
+                <div class="form-group">
+                    <label for="profile_picture_preview">Vista previa de la imagen de perfil:</label>
+                    <div id="profile_picture_preview" class="border p-2" style="max-width: 200px; max-height: 200px;">
+                        <?php if ($fotoPerfil) : ?>
+                            <img src="<?php echo $fotoPerfil; ?>" alt="Imagen de perfil" class="img-fluid">
+                        <?php else : ?>
+                            <p>No se ha seleccionado ninguna imagen de perfil.</p>
+                        <?php endif; ?>
+                    </div>
+                </div>
 
-    <script src="../../Assets/vendor/jquery/dist/jquery.slim.min.js"></script>
-    <script src="../../Assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="../../Assets/vendor/simplebar/dist/simplebar.min.js"></script>
-    <script src="../../Assets/js/app.js"></script>
-    <script src="../../Assets/vendor/smooth-scroll/dist/smooth-scroll.polyfills.min.js"></script>
+                <button type="submit" class="btn btn-primary">Actualizar datos</button>
+            </form>
+        </div>
+    </div>
+</div> <br><br><br>
 
-    <!-- Main theme script-->
-    <script src="../../Assets/js/theme.min.js"></script>
-  </body>
-</html>
+
+<!-- Modal -->
+<div class="modal fade" id="passwordMismatchModal" tabindex="-1" role="dialog" aria-labelledby="passwordMismatchModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="passwordMismatchModalLabel">Upps</h5>
+                
+            </div>
+            <div class="modal-body">
+                Las contraseñas no coinciden. Por favor, verifica e intenta nuevamente.
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+<script src="../../Assets/js/cuenta_admin.js"> </script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<?php include '../template/footer_admin.php'; ?>

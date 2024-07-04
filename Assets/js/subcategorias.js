@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    $('#tablecontacto').DataTable({
+    $('#tablesubcategorias').DataTable({
         "language": {
         "decimal": "",
         "emptyTable": "No hay datos disponibles en la tabla",
@@ -54,13 +54,13 @@ $(document).ready(function() {
     });
 });
 
-function showConfirmationDialog(contactoid) {
+function showConfirmationDialog(subcategoriaid) {
     var confirmationDialog = document.getElementById("confirmationDialog");
     confirmationDialog.style.display = "block";
 
     var deleteButton = document.getElementById("deleteButton");
     deleteButton.onclick = function() {
-        eliminarproducto(contactoid);
+        eliminarsubcategoria(subcategoriaid);
     };
 
     var cancelButton = document.getElementById("cancelButton");
@@ -74,19 +74,19 @@ function closeConfirmationDialog() {
     confirmationDialog.style.display = "none";
 }
 
-function eliminarproducto(contactoid) {
+function eliminarsubcategoria(subcategoriaid) {
     var form = document.createElement("form");
     form.setAttribute("method", "post");
     form.style.display = "none";
 
     var input = document.createElement("input");
     input.setAttribute("type", "hidden");
-    input.setAttribute("name", "id_contacto");
-    input.setAttribute("value", contactoid);
+    input.setAttribute("name", "subcategoria_id");
+    input.setAttribute("value", subcategoriaid);
 
     var inputEliminar = document.createElement("input");
     inputEliminar.setAttribute("type", "hidden");
-    inputEliminar.setAttribute("name", "eliminar_contacto");
+    inputEliminar.setAttribute("name", "eliminar_subcategoria");
     inputEliminar.setAttribute("value", "eliminar");
 
     form.appendChild(input);
@@ -96,5 +96,13 @@ function eliminarproducto(contactoid) {
 }
 
 
+// Capturar el evento de clic en los botones "Editar"
+document.addEventListener("click", function(event) {
+    if (event.target.classList.contains("editar-subcategoria")) {
+        // Obtener el ID de la categoría desde el atributo "data-id"
+        var subcategoriaid = event.target.getAttribute("data-id");
 
-
+        // Redirigir al usuario a la página de edición correspondiente
+        window.location.href = "editar_subcategorias.php?id=" + subcategoriaid;
+    }
+});

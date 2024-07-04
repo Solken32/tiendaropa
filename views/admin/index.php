@@ -1,10 +1,7 @@
-<?php
-include '../../config/config.php';
-include BASE_PATH . 'config/conexion.php';
-include '../template/header_admin.php';
-
-session_start();
-
+<?php include '../../config/config.php';
+include BASE_PATH . 'config/conexion.php'; ?>
+<?php include '../template/navbar_admin.php'; ?>
+<?php 
 // Verificar si NO se ha iniciado sesión y NO hay un token almacenado
 if (!isset($_SESSION['token'])) {
     header('Location: loginconf.php');
@@ -100,85 +97,53 @@ if ($result->num_rows > 0) {
 
 ?>
 
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../../Assets/css/index_admin.css">
+            <div class="container mt-5 mx-auto">
+                <h1 class="text-center bienvenida">Bienvenido Sandro Zahid</h1>
 
-    <!-- Incluir Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+                <div class="row mt-4">
+                    <div class="col-md-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title"><i class="fas fa-user"> Clientes  </i></h5>
+                                <p class="card-text"><?php echo $totalClientes; ?></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title"><i class="fas fa-box "> Productos  </i></h5>
+                                <p class="card-text"><?php echo $totalProductos; ?></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title"><i class="fas fa-users"> Total usuarios</i></h5>
+                                <p class="card-text"><?php echo $totalUsuarios; ?></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-    <!-- Incluir Chart.js -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+                <br><br>
 
-    <!-- fontawesone-->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+                <h1 class="display-12 text-center text-black font-weight-normal">Ventas</h1>
+                <select id="timeFrame">
+                    <option value="day">Diario</option>
+                    <option value="week">Semanal</option>
+                    <option value="month">Mensual</option>
+                    <option value="year">Anual</option>
+                </select>
+                <canvas id="salesChart" width="400" height="200"></canvas>
 
-</head>
-<body>
-    <?php include '../template/navbar_admin.php'; ?>
-    <div class="container mt-5"> <br><br> 
+                <br><br>
 
-
-
-        <h1 class="text-center bienvenida">Bienvenido <?php echo $nombreUsuario; ?></h1>
+                <h1 class="display-12 text-center text-black font-weight-normal">Clientes más frecuentes</h1>
+                <canvas id="customerChart" width="400" height="200"></canvas>
+            </div> <br><br><br>
         
-
-        <div class="row mt-4">
-            <div class="col-md-4">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title"><i class="fas fa-user"> Clientes  </i></h5>
-                        <p class="card-text"><?php echo $totalClientes; ?></p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title"><i class="fas fa-box "> Productos  </i></h5>
-                        <p class="card-text"><?php echo $totalProductos; ?></p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title"><i class="fas fa-users"> Total usuarios</i></h5>
-                        <p class="card-text"><?php echo $totalUsuarios; ?></p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <br><br>
-    
-
-
-
-
-    <h1 class="display-12 text-center text-black font-weight-normal">Ventas</h1>
-    <select id="timeFrame">
-        <option value="day">Diario</option>
-        <option value="week">Semanal</option>
-        <option value="month">Mensual</option>
-        <option value="year">Anual</option>
-    </select>
-    <canvas id="salesChart" width="400" height="200"></canvas>
-
-    
-    
-
-
-    <br><br>
-    <h1 class="display-12 text-center text-black font-weight-normal">Clientes más frecuentes</h1>
-    <canvas id="customerChart" width="400" height="200"></canvas>
-
-
-
 
     <script>
         var clientes = <?php echo json_encode($clientes); ?>;
@@ -289,5 +254,5 @@ if ($result->num_rows > 0) {
         });
         
     </script>
-</body>
-</html>
+
+<?php include '../template/footer_admin.php'; ?>

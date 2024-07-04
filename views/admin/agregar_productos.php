@@ -1,16 +1,14 @@
+<?php include '../../config/conexion.php'; ?>
+<?php include '../template/navbar_admin.php'; ?>
+
 <?php
-include '../../config/config.php';
-include BASE_PATH . 'config/conexion.php';
-include '../template/header_admin.php';
 // Definir la ruta de la imagen por defecto
 $rutaImagenDefecto = '../../Assets/img/productos_img/default.png';
 
-// Iniciar la sesión
-session_start();
 
 // Verificar si NO se ha iniciado sesión y NO hay un token almacenado
 if (!isset($_SESSION['token'])) {
-  header('Location: login.php');
+  header('Location: loginconf.php');
   exit;
 }
 
@@ -145,15 +143,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   }
 }
 
-include '../template/navbar_admin.php';
 ?>
 
-<!-- Page title-->
-<div class="border-bottom pt-5 mt-2 mb-5">
+<div class="container">
+<div class="border-bottom pt-1 mt-2 mb-5">
   <h1 class="mt-2 mt-md-4 mb-3 pt-5">AÑADIR PRODUCTOS</h1>
   <div class="d-flex flex-wrap flex-md-nowrap justify-content-between">
     <p class="text-muted">Aquí puedes añadir los productos</p>
-    <p class="font-size-sm font-weight-medium pl-md-4"><a class="text-nowrap" href="./ver_productos.php" rel="noopener">Ver productos añadidos<i class="cxi-angle-right font-size-base align-middle ml-1"></i></a></p>
+    <p class="font-size-sm font-weight-medium pl-md-4"><a class="text-nowrap" href="./productos.php" rel="noopener">Ver productos añadidos<i class="cxi-angle-right font-size-base align-middle ml-1"></i></a></p>
   </div>
 </div>
 
@@ -260,11 +257,7 @@ include '../template/navbar_admin.php';
           </div>
           <div class="form-group">
             <div id="imagen-producto-preview" class="d-flex flex-wrap">
-              <?php if (isset($rutaImagenDefecto) && !empty($rutaImagenDefecto)) : ?>
-                <img src="<?php echo $rutaImagenDefecto . '?t=' . time(); ?>" alt="Previsualización de la imagen">
-              <?php else : ?>
-                <p>No se ha seleccionado ninguna imagen para la categoria</p>
-              <?php endif; ?>
+              
             </div>
           </div>
           <!-- Fin del formulario de subida de imagen -->
@@ -308,132 +301,8 @@ include '../template/navbar_admin.php';
 
 
 </div>
-
-</section>
-</main>
-
-<!-- Back to top button-->
-<a class="btn-scroll-top" href="#top" data-scroll data-fixed-element>
-  <span class="btn-scroll-top-tooltip text-muted font-size-sm mr-2">Top</span>
-  <i class="btn-scroll-top-icon cxi-angle-up"></i>
-</a>
-
-<!-- Vendor scripts: js libraries and plugins-->
-<script src="../../Assetsassets/vendor/jquery/dist/jquery.slim.min.js"></script>
-<script src="../../Assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-<script src="../../Assets/vendor/simplebar/dist/simplebar.min.js"></script>
-<script src="../../Assets/vendor/smooth-scroll/dist/smooth-scroll.polyfills.min.js"></script>
-
-<script>
-  // Código JavaScript para mostrar la imagen del producto en la vista previa
-  // Este código asume que el elemento "imagen-producto-preview" existe en el DOM.
-
-  // Verificar si hay imágenes del producto seleccionadas y mostrarlas en la vista previa
-  var imagenProductoInput = document.getElementById('imagenes');
-  var imagenProductoPreview = document.getElementById('imagen-producto-preview');
-
-  imagenProductoInput.addEventListener('change', function(event) {
-    var files = event.target.files;
-    imagenProductoPreview.innerHTML = '';
-
-    function readImage(index) {
-      if (index >= files.length) {
-        // Si no se ha seleccionado ninguna imagen, mostrar la imagen por defecto del producto
-        if (files.length === 0) {
-          var defaultImage = new Image();
-          defaultImage.src = '../../Assets/img/productos_img/default.png';
-          defaultImage.alt = 'Imagen por defecto';
-          defaultImage.style.maxWidth = '100%';
-          defaultImage.style.maxHeight = '100%';
-          imagenProductoPreview.appendChild(defaultImage);
-        }
-        return;
-      }
-
-      var file = files[index];
-      var reader = new FileReader();
-
-      reader.onload = function() {
-        var image = new Image();
-        image.src = reader.result;
-        image.alt = 'Previsualización de la imagen del producto';
-        image.style.maxWidth = '100px'; // Ajusta el tamaño de la previsualización
-        image.style.maxHeight = '100px'; // Ajusta el tamaño de la previsualización
-        image.style.margin = '5px'; // Agrega margen entre las imágenes en la previsualización
-        imagenProductoPreview.appendChild(image);
-
-        // Llamar a la función recursivamente para leer la siguiente imagen
-        readImage(index + 1);
-      };
-
-      if (file) {
-        reader.readAsDataURL(file);
-      }
-    }
-
-    // Iniciar la función recursiva para mostrar las imágenes seleccionadas
-    readImage(0);
-  });
-</script>
-
-<script>
-  document.addEventListener('DOMContentLoaded', function() {
-    var tallaSelect = document.getElementById('talla');
-    var tallasDiv = document.getElementById('tallas_seleccionadas');
-
-    tallaSelect.addEventListener('change', function() {
-      var tallaSeleccionada = tallaSelect.value;
-      tallasDiv.innerHTML = '';
-      tallasDiv.style.display = 'block';
-
-      if (tallaSeleccionada === 'ropa') {
-        var tallasRopa = ['XS', 'S', 'M', 'L', 'XL'];
-        tallasRopa.forEach(function(talla) {
-          tallasDiv.innerHTML += '<input type="checkbox" name="tallas_ropa[]" value="' + talla + '"> ' + talla + '<br>';
-        });
-      } else if (tallaSeleccionada === 'calzado') {
-        tallasDiv.innerHTML += '<label for="tallas_calzado">Ingrese las tallas de calzado (separadas por comas):</label><br>';
-        tallasDiv.innerHTML += '<input type="text" name="tallas_calzado" id="tallas_calzado" class="form-control">';
-      }
-    });
-  });
-</script>
-
-<script>
-  function showSubcategorias() {
-    var categoriaId = document.getElementById('categoria_id').value;
-    var subcategoriaDiv = document.getElementById('subcategoriaDiv');
-    var subcategoriaSelect = document.getElementById('subcategoria_id');
-
-    // Verificar si se ha seleccionado una categoría
-    if (categoriaId !== '') {
-      // Mostrar el campo de selección de subcategoría
-      subcategoriaDiv.style.display = 'block';
-
-      // Mostrar u ocultar las opciones de subcategorías según la categoría seleccionada
-      var subcategoriaOptions = subcategoriaSelect.getElementsByTagName('option');
-      for (var i = 0; i < subcategoriaOptions.length; i++) {
-        var option = subcategoriaOptions[i];
-        var categoriaData = option.getAttribute('data-categoria');
-        if (categoriaData === categoriaId) {
-          option.style.display = 'block';
-        } else {
-          option.style.display = 'none';
-        }
-      }
-    } else {
-      // Si no se ha seleccionado una categoría, ocultar el campo de selección de subcategoría
-      subcategoriaDiv.style.display = 'none';
-    }
-
-    // Restablecer el campo de selección de subcategoría a "Seleccionar Subcategoría"
-    subcategoriaSelect.value = '';
-  }
-</script>
+</div> <br><br><br>
 
 
-<!-- Main theme script-->
-<script src="../../Assets/js/theme.min.js"></script>
-</body>
-
-</html>
+<script src="../../Assets/js/agregar_productos.js"></script>
+<?php include '../template/footer_admin.php'; ?>

@@ -1,10 +1,7 @@
+<?php include '../../config/config.php';
+include BASE_PATH . 'config/conexion.php'; ?>
+
 <?php
-
-include '../../config/config.php';
-include BASE_PATH . 'config/conexion.php';
-include '../template/header_admin.php';
-
-session_start();
   // Verificar si NO se ha iniciado sesión y NO hay un token almacenado
   if (!isset($_SESSION['token'])) {
     header('Location: loginconf.php');
@@ -120,8 +117,5 @@ session_start();
     echo "Error: No se encontraron datos del usuario.";
     exit;
   }
-  
-  
-  include 'cuenta.php';
-  
+
 ?>

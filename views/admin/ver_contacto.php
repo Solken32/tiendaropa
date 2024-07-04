@@ -1,9 +1,7 @@
+<?php include '../../config/config.php';
+include BASE_PATH . 'config/conexion.php'; ?>
+
 <?php
-include '../../config/config.php';
-include BASE_PATH . 'config/conexion.php';
-include '../template/header_admin.php';
-
-
 if (isset($_POST['buscar_contacto'])) {
     $nombre = $_POST['nombre'];
 
@@ -32,8 +30,6 @@ if (isset($_POST['buscar_contacto'])) {
 }
 
 
-// Iniciar la sesión
-session_start();
 echo '<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">';
 
 // Verificar si se ha enviado el formulario para eliminar la categoría
@@ -73,6 +69,4 @@ if (isset($_POST['eliminar_contacto'])) {
     }
 
 }
-
-include 'contacto.php';
 ?>

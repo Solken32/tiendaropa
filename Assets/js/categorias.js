@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    $('#tablecontacto').DataTable({
+    $('#myTable').DataTable({
         "language": {
         "decimal": "",
         "emptyTable": "No hay datos disponibles en la tabla",
@@ -54,13 +54,14 @@ $(document).ready(function() {
     });
 });
 
-function showConfirmationDialog(contactoid) {
+
+function showConfirmationDialog(categoriaId) {
     var confirmationDialog = document.getElementById("confirmationDialog");
     confirmationDialog.style.display = "block";
 
     var deleteButton = document.getElementById("deleteButton");
     deleteButton.onclick = function() {
-        eliminarproducto(contactoid);
+        eliminarCategoria(categoriaId);
     };
 
     var cancelButton = document.getElementById("cancelButton");
@@ -74,19 +75,19 @@ function closeConfirmationDialog() {
     confirmationDialog.style.display = "none";
 }
 
-function eliminarproducto(contactoid) {
+function eliminarCategoria(categoriaId) {
     var form = document.createElement("form");
     form.setAttribute("method", "post");
     form.style.display = "none";
 
     var input = document.createElement("input");
     input.setAttribute("type", "hidden");
-    input.setAttribute("name", "id_contacto");
-    input.setAttribute("value", contactoid);
+    input.setAttribute("name", "categoria_id");
+    input.setAttribute("value", categoriaId);
 
     var inputEliminar = document.createElement("input");
     inputEliminar.setAttribute("type", "hidden");
-    inputEliminar.setAttribute("name", "eliminar_contacto");
+    inputEliminar.setAttribute("name", "eliminar_categoria");
     inputEliminar.setAttribute("value", "eliminar");
 
     form.appendChild(input);
@@ -94,7 +95,18 @@ function eliminarproducto(contactoid) {
     document.body.appendChild(form);
     form.submit();
 }
+// Evento para realizar la búsqueda al escribir en el campo de búsqueda
+document.getElementById("inline-form-input-name").addEventListener("input", function() {
+    searchCategorias();
+});
 
+// Capturar el evento de clic en los botones "Editar"
+document.addEventListener("click", function(event) {
+    if (event.target.classList.contains("editar-categoria")) {
+        // Obtener el ID de la categoría desde el atributo "data-id"
+        var categoriaId = event.target.getAttribute("data-id");
 
-
-
+        // Redirigir al usuario a la página de edición correspondiente
+        window.location.href = "editar_categorias.php?id=" + categoriaId;
+    }
+});

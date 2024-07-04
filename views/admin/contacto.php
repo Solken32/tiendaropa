@@ -1,30 +1,8 @@
-<?php
-include '../template/navbar_admin.php'; // Incluir el archivo de conexión a la base de datos
+<?php include '../template/navbar_admin.php'; ?>
+<?php include 'ver_contacto.php'; ?>
 
-?>
-
-<style>
-    /* Estilos para el contenedor de la ventana emergente */
-    #confirmationDialog {
-        position: fixed;
-        top: 0;
-        left: 0;
-        z-index: 1050;
-        display: none;
-        width: 100%;
-        height: 100%;
-        overflow: hidden;
-        outline: 0;
-    }
-
-    /* Estilos para el botón "Eliminar" */
-    #deleteButton {
-        margin-left: 10px;
-    }
-</style>
-
-<!-- Page title-->
-<div class="border-bottom pt-5 mt-2 mb-5">
+<div class="container"> 
+<div class="border-bottom pt-1 mt-2 mb-5">
     <h1 class="mt-2 mt-md-4 mb-3 pt-5">CONTACTOS</h1>
     <div class="d-flex flex-wrap flex-md-nowrap justify-content-between">
         <p class="text-muted">Este módulo lista todos los contactosde la tienda</p>
@@ -53,28 +31,11 @@ include '../template/navbar_admin.php'; // Incluir el archivo de conexión a la 
 </div>
 
 <div class="card box-shadow-sm">
-    <div class="card-header">
-        <h5 style="margin-bottom: 0px;">Filtro de Contactos</h5>
-    </div>
+    
 
     <div class="card-body">
-        <form class="form-inline pt-2" id="searchForm">
-            <div class="input-group">
-                <input class="form-control mb-3 mr-sm-2" type="text" id="inline-form-input-name" placeholder="Buscar por nombre" onkeyup="buscarContacto()">
-                <div class="input-group-append">
-                    <span class="input-group-text" style="background-color: transparent; border: none; padding: 0;">
-                        <i class="cxi-search font-size-sm" style="
-                            padding-left: 10px;
-                            padding-bottom: 15px;
-                        "></i>
-                    </span>
-                </div>
-            </div>
-        </form>
-
-
         <div class="table-responsive">
-            <table class="table table-bordered">
+            <table  class="table table-bordered" id="tablecontacto">
                 <thead>
                     <tr>
                         <th>#</th>
@@ -83,9 +44,10 @@ include '../template/navbar_admin.php'; // Incluir el archivo de conexión a la 
                         <th>email</th>
                         <th>telefono</th>
                         <th>mensaje</th>
+                        <th>Acciones</th>
                     </tr>
                 </thead>
-                <tbody id="ProductosTableBody">
+                <tbody >
                     <?php
                     // Consultar todos los productos con la información necesaria
                     // Consultar todas las subcategorías con el nombre de la categoría a la que pertenecen
@@ -138,49 +100,8 @@ include '../template/navbar_admin.php'; // Incluir el archivo de conexión a la 
             </table>
         </div>
     </div>
-
-    <div class="card-footer">
-        <nav aria-label="Page navigation example">
-            <ul class="pagination">
-                <li class="page-item">
-                    <a href="#" class="page-link">
-                        <<< </a>
-                </li>
-                <li class="page-item d-none d-sm-block">
-                    <a href="#" class="page-link">1</a>
-                </li>
-                <li class="page-item">
-                    <a href="#" class="page-link">>>></a>
-                </li>
-            </ul>
-        </nav>
-    </div>
 </div>
+</div> <br><br><br>
 
-</div>
-</section>
-</main>
-
-<!-- Back to top button-->
-<a class="btn-scroll-top" href="#top" data-scroll data-fixed-element>
-    <span class="btn-scroll-top-tooltip text-muted font-size-sm mr-2">Top</span>
-    <i class="btn-scroll-top-icon cxi-angle-up"></i>
-</a>
-
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.min.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="../../Assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-<script src="../../Assets/vendor/simplebar/dist/simplebar.min.js"></script>
-<script src="../../Assets/vendor/smooth-scroll/dist/smooth-scroll.polyfills.min.js"></script>
-
-
-<!-- Main theme script-->
-<script src="../../Assets/js/theme.min.js"></script>
-<!-- Funciones contacto-->
 <script src="../../Assets/js/contacto_admin.js"></script>
-
-
-</body>
-
-</html>
+<?php include '../template/footer_admin.php'; ?>

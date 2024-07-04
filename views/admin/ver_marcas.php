@@ -1,7 +1,6 @@
+<?php include '../../config/config.php';
+include BASE_PATH . 'config/conexion.php'; ?>
 <?php
-include '../../config/config.php';
-include BASE_PATH . 'config/conexion.php';
-include '../template/header_admin.php';
 
 if (isset($_POST['buscar_marca'])) {
     $nombre = $_POST['nombre'];
@@ -31,8 +30,7 @@ if (isset($_POST['buscar_marca'])) {
 
 
 
-// Iniciar la sesión
-session_start();
+
 echo '<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">';
 
 // Verificar si se ha enviado el formulario para eliminar la categoría
@@ -45,8 +43,8 @@ if (isset($_POST['eliminar_marca'])) {
 
     if ($result) {
         // Mostrar mensaje de éxito si la categoría se eliminó correctamente
-        echo '<script src="<?php BASE_URL;?>Assets/js/iziToast.min.js"></script>';
-        echo '<link rel="stylesheet" href="<?php BASE_URL;?>Assets/css/iziToast.min.css">';
+        echo '<script src="../../Assets/js/iziToast.min.js"></script>';
+        echo '<link rel="stylesheet" href="../../Assets/css/iziToast.min.css">';
         echo '<script>
                 window.onload = function() {
                     iziToast.success({
@@ -58,8 +56,8 @@ if (isset($_POST['eliminar_marca'])) {
             </script>';
     } else {
         // Mostrar mensaje de error si hubo un problema al eliminar la categoría
-        echo '<script src="<?php BASE_URL;?>Assets/js/iziToast.min.js"></script>';
-        echo '<link rel="stylesheet" href="<?php BASE_URL;?>Assets/css/iziToast.min.css">';
+        echo '<script src="../../Assets/js/iziToast.min.js"></script>';
+        echo '<link rel="stylesheet" href="../../Assets/css/iziToast.min.css">';
         echo '<script>
                 window.onload = function() {
                     iziToast.error({
@@ -73,5 +71,5 @@ if (isset($_POST['eliminar_marca'])) {
 }
 
 
-include 'marcas.php';
+
 ?>

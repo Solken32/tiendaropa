@@ -1,30 +1,10 @@
-<?php
-include '../template/navbar_admin.php'; // Incluir el archivo de conexión a la base de datos
+<?php include '../template/navbar_admin.php'; ?>
+<?php include 'ver_productos.php'; ?>
 
-?>
-
-<style>
-    /* Estilos para el contenedor de la ventana emergente */
-    #confirmationDialog {
-        position: fixed;
-        top: 0;
-        left: 0;
-        z-index: 1050;
-        display: none;
-        width: 100%;
-        height: 100%;
-        overflow: hidden;
-        outline: 0;
-    }
-
-    /* Estilos para el botón "Eliminar" */
-    #deleteButton {
-        margin-left: 10px;
-    }
-</style>
 
 <!-- Page title-->
-<div class="border-bottom pt-5 mt-2 mb-5">
+<div class="container">
+<div class="border-bottom pt-1 mt-2 mb-5">
     <h1 class="mt-2 mt-md-4 mb-3 pt-5">PRODUCTOS</h1>
     <div class="d-flex flex-wrap flex-md-nowrap justify-content-between">
         <p class="text-muted">Este módulo lista todos los productos de la tienda</p>
@@ -53,28 +33,11 @@ include '../template/navbar_admin.php'; // Incluir el archivo de conexión a la 
 </div>
 
 <div class="card box-shadow-sm">
-    <div class="card-header">
-        <h5 style="margin-bottom: 0px;">Filtro de Productos</h5>
-    </div>
+    
 
     <div class="card-body">
-        <form class="form-inline pt-2" id="searchForm">
-            <div class="input-group">
-                <input class="form-control mb-3 mr-sm-2" type="text" id="inline-form-input-name" placeholder="Buscar por nombre " onkeyup="buscarproductos()">
-                <div class="input-group-append">
-                    <span class="input-group-text" style="background-color: transparent; border: none; padding: 0;">
-                        <i class="cxi-search font-size-sm" style="
-                            padding-left: 10px;
-                            padding-bottom: 15px;
-                        "></i>
-                    </span>
-                </div>
-            </div>
-        </form>
-
-
         <div class="table-responsive">
-            <table class="table table-bordered">
+            <table class="table table-bordered" id="tableproductos">
                 <thead>
                     <tr>
                         <th>#</th>
@@ -152,110 +115,9 @@ include '../template/navbar_admin.php'; // Incluir el archivo de conexión a la 
             </table>
         </div>
     </div>
-
-    <div class="card-footer">
-        <nav aria-label="Page navigation example">
-            <ul class="pagination">
-                <li class="page-item">
-                    <a href="#" class="page-link">
-                        <<< </a>
-                </li>
-                <li class="page-item d-none d-sm-block">
-                    <a href="#" class="page-link">1</a>
-                </li>
-                <li class="page-item">
-                    <a href="#" class="page-link">>>></a>
-                </li>
-            </ul>
-        </nav>
-    </div>
 </div>
-
-</div>
-</section>
-</main>
-
-<!-- Back to top button-->
-<a class="btn-scroll-top" href="#top" data-scroll data-fixed-element>
-    <span class="btn-scroll-top-tooltip text-muted font-size-sm mr-2">Top</span>
-    <i class="btn-scroll-top-icon cxi-angle-up"></i>
-</a>
-
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.min.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="../../Assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-<script src="../../Assets/vendor/simplebar/dist/simplebar.min.js"></script>
-<script src="../../Assets/vendor/smooth-scroll/dist/smooth-scroll.polyfills.min.js"></script>
-
-<script>
-    function showConfirmationDialog(productoid) {
-        var confirmationDialog = document.getElementById("confirmationDialog");
-        confirmationDialog.style.display = "block";
-
-        var deleteButton = document.getElementById("deleteButton");
-        deleteButton.onclick = function() {
-            eliminarproducto(productoid);
-        };
-
-        var cancelButton = document.getElementById("cancelButton");
-        cancelButton.onclick = function() {
-            confirmationDialog.style.display = "none";
-        };
-    }
-
-    function closeConfirmationDialog() {
-        var confirmationDialog = document.getElementById("confirmationDialog");
-        confirmationDialog.style.display = "none";
-    }
-
-    function eliminarproducto(productoid) {
-        var form = document.createElement("form");
-        form.setAttribute("method", "post");
-        form.style.display = "none";
-
-        var input = document.createElement("input");
-        input.setAttribute("type", "hidden");
-        input.setAttribute("name", "producto_id");
-        input.setAttribute("value", productoid);
-
-        var inputEliminar = document.createElement("input");
-        inputEliminar.setAttribute("type", "hidden");
-        inputEliminar.setAttribute("name", "eliminar_producto");
-        inputEliminar.setAttribute("value", "eliminar");
-
-        form.appendChild(input);
-        form.appendChild(inputEliminar);
-        document.body.appendChild(form);
-        form.submit();
-    }
-</script>
-
-<script>
-    
-
-    // Evento para realizar la búsqueda al escribir en el campo de búsqueda
-    document.getElementById("inline-form-input-name").addEventListener("input", function() {
-        searchProductos();
-    });
-
-    // Capturar el evento de clic en los botones "Editar"
-    document.addEventListener("click", function(event) {
-        if (event.target.classList.contains("editar-producto")) {
-            // Obtener el ID del producto desde el atributo "data-id"
-            var productoId = event.target.getAttribute("data-id");
-
-            // Redirigir al usuario a la página de edición correspondiente
-            window.location.href = "editar_producto.php?id=" + productoId;
-        }
-    });
-</script>
+</div> <br><br><br>
 
 
-<!-- Main theme script-->
-<script src="../../Assets/js/theme.min.js"></script>
-<script src="../../Assets/js/buscartabla.js" ></script>
-
-</body>
-
-</html>
+<script src="../../Assets/js/productos.js"></script>
+<?php include '../template/footer_admin.php'; ?>

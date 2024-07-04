@@ -1,12 +1,10 @@
-<?php
-include '../template/navbar_admin.php'; // Incluir el archivo de conexión a la base de datos
-
-?>
+<?php include '../template/navbar_admin.php'; ?>
+<?php include 'ver_categorias.php'; ?>
 
 <link rel="stylesheet" href="../../Assets/css/categorias.css">
 
-<!-- Page title-->
-<div class="border-bottom pt-5 mt-2 mb-5">
+<div class="container">
+<div class="border-bottom pt-1 mt-2 mb-5">
     <h1 class="mt-2 mt-md-4 mb-3 pt-5">CATEGORÍAS</h1>
     <div class="d-flex flex-wrap flex-md-nowrap justify-content-between">
         <p class="text-muted">Este módulo lista todas las categorías de la tienda</p>
@@ -35,26 +33,13 @@ include '../template/navbar_admin.php'; // Incluir el archivo de conexión a la 
 </div>
 
 <div class="card box-shadow-sm">
-    <div class="card-header">
-        <h5 style="margin-bottom: 0px;">Filtro de categorias</h5>
-    </div>
+    
 
     <div class="card-body">
-        <form class="form-inline pt-2" id="searchForm">
-            <input class="form-control mb-3 mr-sm-4" type="text" id="inline-form-input-name" placeholder="Buscar por nombre"  onkeyup="buscarCategoria()">
-            <div class="input-group-append">
-                <span class="input-group-text" style="background-color: transparent; border: none; padding: 0;">
-                    <i class="cxi-search font-size-sm" style="
-                            padding-left: 10px;
-                            padding-bottom: 15px;
-                        "></i>
-                </span>
-            </div>
-        </form>
-        <div class="table-responsive">
-            <table class="table table-bordered">
+        <div class="table-responsive ">
+            <table class="table table-bordered" id="myTable" class="display">
                 <thead>
-                    <tr>
+                    <tr> 
                         <th>#</th>
                         <th>Nombre</th>
                         <th>Imagen</th>
@@ -104,109 +89,9 @@ include '../template/navbar_admin.php'; // Incluir el archivo de conexión a la 
             </table>
         </div>
     </div>
-
-
-    <div class="card-footer">
-        <nav aria-label="Page navigation example">
-            <ul class="pagination">
-                <li class="page-item">
-                    <a href="#" class="page-link">
-                        <<<< /a>
-                </li>
-                <li class="page-item d-none d-sm-block">
-                    <a href="#" class="page-link">1</a>
-                </li>
-                <li class="page-item">
-                    <a href="#" class="page-link">>>></a>
-                </li>
-            </ul>
-        </nav>
-    </div>
 </div>
+</div> <br><br><br>
 
-</div>
-</section>
-</main>
 
-<!-- Back to top button-->
-<a class="btn-scroll-top" href="#top" data-scroll data-fixed-element>
-    <span class="btn-scroll-top-tooltip text-muted font-size-sm mr-2">Top</span>
-    <i class="btn-scroll-top-icon cxi-angle-up"></i>
-</a>
-
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.min.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="../../Assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-<script src="../../Assets/vendor/simplebar/dist/simplebar.min.js"></script>
-<script src="../../Assets/vendor/smooth-scroll/dist/smooth-scroll.polyfills.min.js"></script>
-
-<script>
-    function showConfirmationDialog(categoriaId) {
-        var confirmationDialog = document.getElementById("confirmationDialog");
-        confirmationDialog.style.display = "block";
-
-        var deleteButton = document.getElementById("deleteButton");
-        deleteButton.onclick = function() {
-            eliminarCategoria(categoriaId);
-        };
-
-        var cancelButton = document.getElementById("cancelButton");
-        cancelButton.onclick = function() {
-            confirmationDialog.style.display = "none";
-        };
-    }
-
-    function closeConfirmationDialog() {
-        var confirmationDialog = document.getElementById("confirmationDialog");
-        confirmationDialog.style.display = "none";
-    }
-
-    function eliminarCategoria(categoriaId) {
-        var form = document.createElement("form");
-        form.setAttribute("method", "post");
-        form.style.display = "none";
-
-        var input = document.createElement("input");
-        input.setAttribute("type", "hidden");
-        input.setAttribute("name", "categoria_id");
-        input.setAttribute("value", categoriaId);
-
-        var inputEliminar = document.createElement("input");
-        inputEliminar.setAttribute("type", "hidden");
-        inputEliminar.setAttribute("name", "eliminar_categoria");
-        inputEliminar.setAttribute("value", "eliminar");
-
-        form.appendChild(input);
-        form.appendChild(inputEliminar);
-        document.body.appendChild(form);
-        form.submit();
-    }
-</script>
-
-<script>
-    
-
-    // Evento para realizar la búsqueda al escribir en el campo de búsqueda
-    document.getElementById("inline-form-input-name").addEventListener("input", function() {
-        searchCategorias();
-    });
-
-    // Capturar el evento de clic en los botones "Editar"
-    document.addEventListener("click", function(event) {
-        if (event.target.classList.contains("editar-categoria")) {
-            // Obtener el ID de la categoría desde el atributo "data-id"
-            var categoriaId = event.target.getAttribute("data-id");
-
-            // Redirigir al usuario a la página de edición correspondiente
-            window.location.href = "editar_categorias.php?id=" + categoriaId;
-        }
-    });
-</script>
-
-<!-- Main theme script-->
-<script src="../../Assets/js/theme.min.js"></script>
-<script src="../../Assets/js/buscartabla.js" ></script>
-</body>
-
-</html>
+<script src="../../Assets/js/categorias.js"></script>
+<?php include '../template/footer_admin.php'; ?>

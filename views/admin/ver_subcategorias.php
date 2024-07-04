@@ -1,6 +1,7 @@
+<?php include '../../config/config.php';
+include BASE_PATH . 'config/conexion.php'; ?>
+
 <?php
-include '../../config/conexion.php';
-include '../template/header_admin.php';
 
 if (isset($_POST['buscar_subcategoria'])) {
     $nombre = $_POST['nombre'];
@@ -28,10 +29,7 @@ if (isset($_POST['buscar_subcategoria'])) {
     exit(); // Terminar la ejecución del script después de enviar la respuesta JSON
 }
 
-// El resto del código de "ver_subcategorias.php" para mostrar las categorías en la página:
 
-// Iniciar la sesión
-session_start();
 echo '<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">';
 
 // Verificar si se ha enviado el formulario para eliminar la categoría
@@ -71,6 +69,4 @@ if (isset($_POST['eliminar_subcategoria'])) {
     }
 }
 
-
-include 'subCategoria.php';
 ?>
