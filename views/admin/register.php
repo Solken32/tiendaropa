@@ -1,10 +1,9 @@
+
+<?php include '../../config/config.php';
+include BASE_PATH . 'config/conexion.php'; ?>
+<?php include '../template/navbar_admin.php'; ?>
+
 <?php
-
-include '../../config/config.php';
-include BASE_PATH . 'config/conexion.php';
-include '../template/header_admin.php';
-session_start();
-
 
 $ruta_activa = true; // Cambiar a true para acceder
 
@@ -59,40 +58,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 ?>
 
-<!DOCTYPE html>
-<html lang="es">
 
-<head>
-  <meta charset="utf-8">
-  <title>ADMIN</title>
-
-  <!-- SEO Meta Tags-->
-  <meta name="description" content="Createx - Multipurpose Bootstrap Template and UI Kit">
-  <meta name="keywords" content="bootstrap, business, creative agency, construction, services, e-commerce, shopping cart, mobile app showcase, multipurpose, shop, ui kit, marketing, seo, landing, html5, css3, javascript, gallery, slider, touch, creative">
-  <meta name="author" content="Createx Studio">
-
-  <!-- Viewport-->
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-
-  <!-- Favicon and Touch Icons-->
-  <link rel="icon" type="image/png" href="./../Assets/img/icon.png">
-  <meta name="msapplication-TileColor" content="#766df4">
-  <meta name="theme-color" content="#ffffff">
-
-  <!-- Vendor Styles-->
-  <link rel="stylesheet" media="screen" href="../../Assets/vendor/simplebar/dist/simplebar.min.css" />
-
-  <!-- Main Theme Styles + Bootstrap-->
-  <link rel="stylesheet" media="screen" href="./../Assets/css/theme.min.css">
-</head>
-
-
-<!-- Body-->
-
-<body>
-
-  <main class="container-fluid pb-3 pb-sm-4" style="width: 100%; height: 100%;">
-    <div class="row" style="width: 100%; height: 100%;">
+<div class="container">
+    <div class="row border-bottom pt-1 mt-2 mb-5" style="width: 100%; height: 100%;">
       <div class="mx-auto" style="display: flex; align-items: center;">
         <div class="modal-body px-md-5 px-4">
           <h3 class="modal-title mt-4 mb-0 text-center mb-5">Registrar</h3>
@@ -109,84 +77,52 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <div class="form-group">
               <label for="register-name">Nombre</label>
               <input type="text" class="form-control" id="register-name" name="name" placeholder="Tu nombre" required>
-            </div>
+            </div> <br>
             <div class="form-group">
               <label for="register-lastname">Apellido</label>
               <input type="text" class="form-control" id="register-lastname" name="lastname" placeholder="Tu apellido" required>
-            </div>
+            </div><br>
             <div class="form-group">
               <label for="register-email">Correo electrónico</label>
               <input type="email" class="form-control" id="register-email" name="email" placeholder="Tu correo electrónico" required>
-            </div>
+            </div><br>
+
             <div class="form-group">
               <label for="register-password" class="form-label">Contraseña</label>
-              <div class="cs-password-toggle input-group-overlay">
-                <input type="password" class="form-control appended-form-control" id="register-password" name="password" placeholder="Tu contraseña" required>
-                <div class="input-group-append-overlay">
-                  <label class="btn cs-password-toggle-btn input-group-text">
-                    <input type="checkbox" class="custom-control-input">
-                    <i class="cxi-eye cs-password-toggle-indicator"></i>
-                    <span class="sr-only">Mostrar contraseña</span>
-                  </label>
+              <div class="input-group">
+                <input type="password" class="form-control" id="register-password" name="password" placeholder="Tu contraseña" required>
+                <div class="input-group-append">
+                  <button class="btn btn-outline-secondary" type="button" onclick="togglePasswordVisibility('register-password')">
+                    <i class="fa fa-eye"></i>
+                  </button>
                 </div>
               </div>
-            </div>
+            </div> <br>
+
             <div class="form-group">
               <label for="register-confirm-password" class="form-label">Confirmar contraseña</label>
-              <div class="cs-password-toggle input-group-overlay">
+              <div class="input-group">
                 <input type="password" class="form-control appended-form-control" id="register-confirm-password" name="confirm_password" placeholder="Confirmar tu contraseña" required>
-                <div class="input-group-append-overlay">
-                  <label class="btn cs-password-toggle-btn input-group-text">
-                    <input type="checkbox" class="custom-control-input">
-                    <i class="cxi-eye cs-password-toggle-indicator"></i>
-                    <span class="sr-only">Mostrar contraseña</span>
-                  </label>
+                <div class="input-group-append">
+                  <button class="btn btn-outline-secondary" type="button" onclick="togglePasswordVisibility('register-confirm-password')">
+                    <i class="fa fa-eye"></i>
+                  </button>
                 </div>
               </div>
+            </div> <br>
+
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary">Registrar</button>
             </div>
-            <button type="submit" class="btn btn-primary btn-block">Registrar</button>
             
           </form>
         </div>
       </div>
     </div>
-  </main>
-
-  <a class="btn-scroll-top" href="#top" data-scroll data-fixed-element>
-    <span class="btn-scroll-top-tooltip text-muted font-size-sm mr-2">Top</span>
-    <i class="btn-scroll-top-icon cxi-angle-up"></i>
-  </a>
-
-  <!-- Vendor scripts: js libraries and plugins-->
-  <script src="../../assets_tienda/vendor/jquery/dist/jquery.slim.min.js"></script>
-  <!-- Agregar este código dentro del bloque <script> existente en la página HTML -->
-  <script>
-    function validatePassword() {
-      const passwordInput = document.getElementById('register-password');
-      const confirmPasswordInput = document.getElementById('register-confirm-password');
-      const passwordAlertContainer = document.getElementById('form-password-alert');
-
-      if (passwordInput.value.length < 8) {
-        passwordAlertContainer.innerHTML = '<div class="alert alert-danger" role="alert">Error: La contraseña debe tener al menos 8 caracteres.</div>';
-        return false;
-      }
-
-      if (passwordInput.value !== confirmPasswordInput.value) {
-        passwordAlertContainer.innerHTML = '<div class="alert alert-danger" role="alert">Error: Las contraseñas no coinciden. Por favor, verifica las contraseñas e intenta nuevamente.</div>';
-        return false;
-      }
-      
-      return true;
-    }
-  </script>
-
+</div> <br><br><br>
   
-  <script src="../../assets_tienda/vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="../../assets_tienda/vendor/simplebar/dist/simplebar.min.js"></script>
-  <script src="../../assets_tienda/vendor/smooth-scroll/dist/smooth-scroll.polyfills.min.js"></script>
 
-  <!-- Main theme script-->
-  <script src="../../Assets/js/theme.min.js"></script>
-</body>
 
-</html>
+
+<script src="../../Assets/js/register.js"></script>
+  <?php include '../template/footer_admin.php'; ?>

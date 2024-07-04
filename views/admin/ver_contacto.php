@@ -19,7 +19,6 @@ if (isset($_POST['buscar_contacto'])) {
     // Verificar si hay contactos
     if (mysqli_num_rows($result) > 0) {
         while ($row = mysqli_fetch_assoc($result)) {
-            // Agregar cada producto al array
             $contactos[] = $row;
         }
     }

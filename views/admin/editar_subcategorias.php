@@ -1,10 +1,7 @@
+<?php include '../../config/config.php';
+include BASE_PATH . 'config/conexion.php'; ?>
+<?php include '../template/navbar_admin.php'; ?>
 <?php
-include '../../config/config.php';
-include BASE_PATH . 'config/conexion.php';
-include '../template/header_admin.php';
-
-// Iniciar la sesión
-session_start();
 
 // Verificar si NO se ha iniciado sesión y NO hay un token almacenado
 if (!isset($_SESSION['token'])) {
@@ -20,7 +17,7 @@ if (isset($_GET['id'])) {
   // Verificar si el valor de ID es válido (es decir, un entero mayor que 0)
   if ($subcategoriaId === false || $subcategoriaId <= 0) {
       // Redirigir a la página de listar subcategorías si el ID no es válido
-      header('Location: ver_subcategorias.php');
+      header('Location: subcategorias.php');
       exit;
   }
 
@@ -36,12 +33,12 @@ if (isset($_GET['id'])) {
       $categoria_id = $subcategoria['categoria_id'];
   } else {
       // Si no se encontró la subcategoría, redirigir a la página de listar subcategorías
-      header('Location: ver_subcategorias.php');
+      header('Location: subcategorias.php');
       exit;
   }
 } else {
   // Si no se proporcionó el ID de la subcategoría, redirigir a la página de listar subcategorías
-  header('Location: ver_subcategorias.php');
+  header('Location: subcategorias.php');
   exit;
 }
 
@@ -58,8 +55,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
   if (mysqli_num_rows($resultExistesubcategoria) > 0) {
     // Mostrar mensaje de error si ya existe una subcategoría con el mismo nombre
-    echo '<script src="<?php echo BASE_URL;?>Assets/js/iziToast.min.js"></script>';
-    echo '<link rel="stylesheet" href="<?php echo BASE_URL;?>Assets/css/iziToast.min.css">';
+    echo '<script src="../../Assets/js/iziToast.min.js"></script>';
+    echo '<link rel="stylesheet" href="../../Assets/css/iziToast.min.css">';
     echo '<script>
           window.onload = function() {
             iziToast.error({
@@ -76,8 +73,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if ($result) {
       // Mostrar mensaje de éxito si los datos se actualizaron correctamente
-      echo '<script src="<?php echo BASE_URL;?>Assets/js/iziToast.min.js"></script>';
-      echo '<link rel="stylesheet" href="<?php echo BASE_URL;?>Assets/css/iziToast.min.css">';
+      echo '<script src="../../Assets/js/iziToast.min.js"></script>';
+      echo '<link rel="stylesheet" href="../../Assets/css/iziToast.min.css">';
       echo '<script>
             window.onload = function() {
               iziToast.success({
@@ -89,8 +86,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
           </script>';
     } else {
       // Mostrar mensaje de error si no se pudieron actualizar los datos
-      echo '<script src="<?php echo BASE_URL;?>Assets/assets/js/iziToast.min.js"></script>';
-      echo '<link rel="stylesheet" href="<?php echo BASE_URL;?>Assets/css/iziToast.min.css">';
+      echo '<script src="../../Assets/assets/js/iziToast.min.js"></script>';
+      echo '<link rel="stylesheet" href="../../Assets/css/iziToast.min.css">';
       echo '<script>
             window.onload = function() {
               iziToast.error({
@@ -99,7 +96,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 position: "topRight"
               });
               setTimeout(function() {
-                window.location.href = "ver_subcategorias.php";
+                window.location.href = "subcategorias.php";
               }, 2000); 
             };
           </script>';
@@ -123,14 +120,19 @@ if ($resultsubcategoria && mysqli_num_rows($resultsubcategoria) > 0) {
   $categoria_id_actual = "";
 }
 
-include '../template/navbar_admin.php';
 ?>
 
-<!-- Page title-->
-<div class="border-bottom pt-5 mt-2 mb-5">
+<div class="container">
+<div class="border-bottom pt-1 mt-2 mb-5">
     <h1 class="mt-2 mt-md-4 mb-3 pt-5">EDITAR SUBCATEGORÍAS</h1>
     <div class="d-flex flex-wrap flex-md-nowrap justify-content-between">
         <p class="text-muted">Aquí puedes editar las subcategorías seleccionadas</p>
+        <p class="font-size-sm font-weight-medium pl-md-4">
+        <a class="text-nowrap" href="./subcategoria.php" rel="noopener">
+          Ver subcategorías actualizadas
+          <i class="cxi-angle-right font-size-base align-middle ml-1"></i>
+        </a>
+        </p>
     </div>
 </div>
 
@@ -143,7 +145,7 @@ include '../template/navbar_admin.php';
             <div class="form-group">
                 <label for="nombresubcategoria">Nombre de la subcategoría:</label>
                 <input type="text" class="form-control" id="nombresubcategoria" name="nombresubcategoria" required value="<?php echo $nombresubcategoria_actual; ?>">
-            </div>
+            </div><br>
             <div class="form-group">
                 <label for="categoria">Escoge la categoría:</label>
                 <select class="form-control" id="categoria" name="categoria" required>
@@ -161,36 +163,15 @@ include '../template/navbar_admin.php';
                         }
                     }
                     ?>
-                </select>
+                </select> <br>
             </div>
             <div class="form-group">
                 <button type="submit" class="btn btn-primary">Actualizar</button>
-                <a href="ver_subcategorias.php" class="btn btn-secondary">Cancelar</a>
+                <a href="subcategoria.php" class="btn btn-secondary">Cancelar</a>
             </div>
         </form>
     </div>
 </div>
+</div> <br><br>
 
-
-</div>
-</section>
-</main>
-
-
-    <!-- Back to top button-->
-    <a class="btn-scroll-top" href="#top" data-scroll data-fixed-element>
-        <span class="btn-scroll-top-tooltip text-muted font-size-sm mr-2"></span>
-        <i class="btn-scroll-top-icon cxi-angle-up"></i>
-    </a>
-
-    <script src="<?php echo BASE_URL;?>Assets/vendor/jquery/dist/jquery.slim.min.js"></script>
-    <script src="<?php echo BASE_URL;?>Assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="<?php echo BASE_URL;?>Assets/vendor/simplebar/dist/simplebar.min.js"></script>
-    <script src="<?php echo BASE_URL;?>Assets/js/app.js"></script>
-    <script src="<?php echo BASE_URL;?>Assets/vendor/smooth-scroll/dist/smooth-scroll.polyfills.min.js"></script>
-
-    <!-- Main theme script-->
-    <script src="<?php echo BASE_URL;?>Assets/js/theme.min.js"></script>
-
-  </body>
-</html>
+<?php include '../template/footer_admin.php'; ?>

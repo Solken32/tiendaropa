@@ -1,13 +1,13 @@
+<?php include '../../config/config.php';
+include BASE_PATH . 'config/conexion.php'; ?>
+<?php include '../template/navbar_admin.php'; ?>
+
 <?php
-include '../../config/config.php';
-include BASE_PATH . 'config/conexion.php';
-include '../template/header_admin.php';
+
 
 // Definir la ruta de la imagen por defecto
 $rutaImagenDefecto = '../../Assets/img/categoria_img/default.jpg';
 
-// Iniciar la sesión
-session_start();
 
 // Verificar si NO se ha iniciado sesión y NO hay un token almacenado
 if (!isset($_SESSION['token'])) {
@@ -32,12 +32,12 @@ if (isset($_GET['id'])) {
     $imagenCategoria = $categoria['imagen'];
   } else {
     // Si no se encontró la categoría, redirigir a la página de listar categorías
-    header('Location: ver_categorias.php');
+    header('Location: categorias.php');
     exit;
   }
 } else {
   // Si no se proporcionó el ID de la categoría, redirigir a la página de listar categorías
-  header('Location: ver_categorias.php');
+  header('Location: categorias.php');
   exit;
 }
 
@@ -137,142 +137,86 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   }
 }
 
-include '../template/navbar_admin.php';
 ?>
 
-<!-- Page title-->
-<div class="border-bottom pt-5 mt-2 mb-5">
-  <h1 class="mt-2 mt-md-4 mb-3 pt-5">EDITAR CATEGORÍAS</h1>
-  <div class="d-flex flex-wrap flex-md-nowrap justify-content-between">
-    <p class="text-muted">Aquí puedes editar la categoria seleccionada</p>
-  </div>
-</div>
+<div class="container">
+  <div class="border-bottom pt-1 mt-2 mb-4">
+    <h1 class="mt-2 mt-md-4 mb-3 pt-5">EDITAR CATEGORÍAS</h1>
+    <div class="d-flex flex-wrap flex-md-nowrap justify-content-between">
+      <p class="text-muted">Aquí puedes editar la categoria seleccionada</p>
+      <p class="font-size-sm font-weight-medium pl-md-4">
+        <a class="text-nowrap" href="./categorias.php" rel="noopener">
+          Ver categorías actualizadas
+          <i class="cxi-angle-right font-size-base align-middle ml-1"></i>
+        </a>
+      </p>
+    </div>
 
-<div class="card box-shadow-sm">
-  <div class="card-header">
-    <h5 style="margin-bottom: 0px;">EDITAR CATEGORÍA</h5>
   </div>
-  <div class="card-body">
-    <form method="POST" enctype="multipart/form-data">
-      <div class="form-group">
-        <label for="nombre">Nombre de la categoría:</label>
-        <!-- Rellenar el campo con el nombre de la categoría obtenido de la base de datos -->
-        <input type="text" class="form-control" id="nombrecategoria" name="nombre" value="<?php echo $nombreCategoria; ?>" required>
-      </div>
-      <div class="form-group">
-        <label for="imagen">Imagen de la categoria:</label>
-        <input type="file" class="form-control-file" id="imagen" name="imagen">
-        <br>
-        <div id="imagen-preview" style="max-width: 200px; max-height: 200px;">
-          <!-- Mostrar la imagen de la categoría obtenida de la base de datos -->
-          <?php if (!empty($imagenCategoria)) : ?>
-            <img src="<?php echo $imagenCategoria . '?t=' . time(); ?>" alt="Previsualización de la imagen" style="max-width: 200px; max-height: 200px;">
-          <?php else : ?>
-            <p>No se ha seleccionado ninguna imagen para la categoría</p>
-          <?php endif; ?>
+
+  <div class="card box-shadow-sm">
+    <div class="card-header">
+      <h5 style="margin-bottom: 0px;">EDITAR CATEGORÍA</h5>
+  
+    </div>
+    <div class="card-body">
+      <form method="POST" enctype="multipart/form-data">
+        <div class="form-group">
+          <label for="nombre">Nombre de la categoría:</label>
+          <!-- Rellenar el campo con el nombre de la categoría obtenido de la base de datos -->
+          <input type="text" class="form-control" id="nombrecategoria" name="nombre" value="<?php echo $nombreCategoria; ?>" required>
         </div>
-      </div>
-      <button type="submit" class="btn btn-primary">Actualizar categoría</button>
-      <!-- Añadir el botón "Cancelar" que redirige a la página de listar categorías -->
-      <a href="ver_categorias.php" class="btn btn-secondary">Cancelar</a>
-    </form>
+        <div class="form-group">
+          <label for="imagen">Imagen de la categoria:</label>
+          <input type="file" class="form-control-file" id="imagen" name="imagen">
+          <br>
+          <div id="imagen-preview" style="max-width: 200px; max-height: 200px;">
+            <!-- Mostrar la imagen de la categoría obtenida de la base de datos -->
+            <?php if (!empty($imagenCategoria)) : ?>
+              <img src="<?php echo $imagenCategoria . '?t=' . time(); ?>" alt="Previsualización de la imagen" style="max-width: 200px; max-height: 200px;">
+            <?php else : ?>
+              <p>No se ha seleccionado ninguna imagen para la categoría</p>
+            <?php endif; ?>
+          </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Actualizar categoría</button>
+        <!-- Añadir el botón "Cancelar" que redirige a la página de listar categorías -->
+        <a href="categorias.php" class="btn btn-secondary">Cancelar</a>
+      </form>
 
-    <!-- Mostrar mensaje de éxito si existe -->
-    <?php if (isset($success)) : ?>
-      <script src="<?php echo BASE_URL;?>Assets/js/iziToast.min.js"></script>
-      <link rel="stylesheet" href="<?php echo BASE_URL;?>Assets/css/iziToast.min.css">
-      <script>
-        window.onload = function() {
-          iziToast.success({
-            title: "Éxito",
-            message: "<?php echo $success; ?>",
-            position: "topRight"
-          });
-        };
-      </script>
-    <?php endif; ?>
+      <!-- Mostrar mensaje de éxito si existe -->
+      <?php if (isset($success)) : ?>
+        <script src="../../Assets/js/iziToast.min.js"></script>
+        <link rel="stylesheet" href="../../Assets/css/iziToast.min.css">
+        <script>
+          window.onload = function() {
+            iziToast.success({
+              title: "Éxito",
+              message: "<?php echo $success; ?>",
+              position: "topRight"
+            });
+          };
+        </script>
+      <?php endif; ?>
 
-    <!-- Mostrar mensaje de error si existe -->
-    <?php if (isset($error)) : ?>
-      <script src="<?php echo BASE_URL;?>Assets/js/iziToast.min.js"></script>
-      <link rel="stylesheet" href="<?php echo BASE_URL;?>Assets/css/iziToast.min.css">
-      <script>
-        window.onload = function() {
-          iziToast.error({
-            title: "Error",
-            message: "<?php echo $error; ?>",
-            position: "topRight"
-          });
-        };
-      </script>
-    <?php endif; ?>
-
-
+      <!-- Mostrar mensaje de error si existe -->
+      <?php if (isset($error)) : ?>
+        <script src="../../Assets/js/iziToast.min.js"></script>
+        <link rel="stylesheet" href="../../Assets/css/iziToast.min.css">
+        <script>
+          window.onload = function() {
+            iziToast.error({
+              title: "Error",
+              message: "<?php echo $error; ?>",
+              position: "topRight"
+            });
+          };
+        </script>
+      <?php endif; ?>
+    </div>
   </div>
-</div>
+</div> <br><br><br>
 
-</div>
-</section>
-</main>
 
-<script>
-  // Código JavaScript para mostrar la imagen de categoría en la vista previa
-  // Este código asume que el elemento "imagen-preview" existe en el DOM.
-
-  // Verificar si hay una imagen de categoría seleccionada y mostrarla en la vista previa
-  var imagenInput = document.getElementById('imagen');
-  var imagenPreview = document.getElementById('imagen-preview');
-
-  // Función para mostrar la imagen de categoría actual
-  function mostrarImagenActual() {
-    imagenPreview.innerHTML = '';
-    var imagenActual = new Image();
-    imagenActual.src = '<?php echo $imagenCategoria; ?>';
-    imagenActual.alt = 'Previsualización de la imagen';
-    imagenActual.style.maxWidth = '200px';
-    imagenActual.style.maxHeight = '200px';
-    imagenPreview.appendChild(imagenActual);
-  }
-
-  imagenInput.addEventListener('input', function(event) {
-    var file = event.target.files[0];
-    var reader = new FileReader();
-
-    reader.onload = function() {
-      var image = new Image();
-      image.src = reader.result;
-      image.alt = 'Previsualización de la imagen';
-      image.style.maxWidth = '100%';
-      image.style.maxHeight = '100%';
-      imagenPreview.innerHTML = '';
-      imagenPreview.appendChild(image);
-    };
-
-    if (file) {
-      reader.readAsDataURL(file);
-    } else {
-      // Si no se ha seleccionado ninguna imagen, mostrar la imagen de categoría actual
-      mostrarImagenActual();
-    }
-  });
-
-  // Mostrar la imagen de categoría actual al cargar la página
-  mostrarImagenActual();
-</script>
-
-<!-- Back to top button-->
-<a class="btn-scroll-top" href="#top" data-scroll data-fixed-element>
-  <span class="btn-scroll-top-tooltip text-muted font-size-sm mr-2"></span>
-  <i class="btn-scroll-top-icon cxi-angle-up"></i>
-</a>
-
-<script src="<?php echo BASE_URL;?>Assets/vendor/jquery/dist/jquery.slim.min.js"></script>
-<script src="<?php echo BASE_URL;?>Assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-<script src="<?php echo BASE_URL;?>Assets/vendor/simplebar/dist/simplebar.min.js"></script>
-<script src="<?php echo BASE_URL;?>Assets/vendor/smooth-scroll/dist/smooth-scroll.polyfills.min.js"></script>
-
-<!-- Main theme script-->
-<script src="<?php echo BASE_URL;?>Assets/js/theme.min.js"></script>
-</body>
-
-</html>
+<script src="../../Assets/js/editar_categorias.js"></script>
+<?php include '../template/footer_admin.php'; ?>

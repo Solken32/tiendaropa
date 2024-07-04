@@ -1,12 +1,7 @@
+<?php include '../../config/config.php';
+include BASE_PATH . 'config/conexion.php'; ?>
+
 <?php
-// Incluir el archivo de conexión
-include_once dirname(__FILE__) . '/../../config/config.php';
-include_once BASE_PATH . 'config/conexion.php';
-
-
-// Iniciar la sesión
-session_start();
-include '../template/header_admin.php';
 
 // Rutas de destino para cada archivo
 $destinationIcon = "../../assets_tienda/img/favicon.png";
@@ -107,10 +102,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     // Aquí va el código para guardar los demás datos en la tabla "tiendaconfig"
     $sql = "UPDATE tiendaconfig SET nombre='$nombre', facebook='$facebook', instagram='$instagram', whatsapp='$whatsapp', numero='$numero', email='$email', dirección='$direccion', googlemaps='$gmap' WHERE id=1";
     if ($conn->query($sql) === TRUE) {
-        // Redirigir a la página actual después de guardar los datos
-        header('Location: ' . $_SERVER['PHP_SELF']);
+        
     } else {
-        // Si ocurre un error, puedes manejarlo de acuerdo a tus necesidades
         echo "Error al guardar los datos: " . $conn->error;
     }
 }
@@ -119,7 +112,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 $sql = "SELECT * FROM tiendaconfig";
 $result = $conn->query($sql);
 
-// Inicializar variables para almacenar los datos de la tabla
 $nombre = "";
 $email = "";
 $facebook = "";
@@ -140,9 +132,6 @@ if ($result->num_rows > 0) {
     $gmap = $row['googlemaps'];
     $success = "Datos cargados exitosamente";
 } else {
-    // Mostrar mensaje de error si no se pudieron actualizar los datos
     $error = "Hubo un error mostrar los datos, inténtelo más tarde.";
 }
-
-include 'configuracionTienda.php';
 ?>

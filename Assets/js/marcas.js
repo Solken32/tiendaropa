@@ -94,9 +94,9 @@ function eliminarmarca(marcaId) {
     form.submit();
 }
 // Evento para realizar la búsqueda al escribir en el campo de búsqueda
-document.getElementById("inline-form-input-name").addEventListener("input", function() {
-    searchmarcas();
-});
+//document.getElementById("inline-form-input-name").addEventListener("input", function() {
+//    searchmarcas();
+//});
 
 // Capturar el evento de clic en los botones "Editar"
 document.addEventListener("click", function(event) {

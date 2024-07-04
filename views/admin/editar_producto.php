@@ -1,13 +1,10 @@
+<?php include '../../config/config.php';
+include BASE_PATH . 'config/conexion.php'; ?>
+<?php include '../template/navbar_admin.php'; ?>
+
+
 <?php
-include '../../config/config.php';
-include BASE_PATH . 'config/conexion.php';
-include '../template/header_admin.php';
-
-// Definir la ruta de la imagen por defecto
 $rutaImagenDefecto = '../../Assets/img/productos_img/default.png';
-
-// Iniciar la sesión
-session_start();
 
 // Verificar si NO se ha iniciado sesión y NO hay un token almacenado
 if (!isset($_SESSION['token'])) {
@@ -42,13 +39,13 @@ if (isset($_GET['id'])) {
     $tallasLimpio = str_replace(['ropa, ', 'calzado, '], '', $talla);
   } else {
     // Si no se encontró el producto, redirigir a la página de listar productos
-    header('Location: ver_productos.php');
+    header('Location: productos.php');
     exit;
   }
 } else {
   // Si no se proporcionó el ID del producto, redirigir a la página de listar productos
-  header('Location: ver_productos.php');
-  exit;
+  //header('Location: productos.php');
+  //exit;
 }
 
 // Verificar si el formulario se ha enviado
@@ -189,16 +186,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
   }
 }
-
-include '../template/navbar_admin.php';
 ?>
 
 
-<!-- Page title-->
-<div class="border-bottom pt-5 mt-2 mb-5">
+<div class="container">
+<div class="border-bottom pt-1 mt-2 mb-5">
   <h1 class="mt-2 mt-md-4 mb-3 pt-5">EDITAR PRODUCTOS</h1>
   <div class="d-flex flex-wrap flex-md-nowrap justify-content-between">
     <p class="text-muted">Aquí puedes editar el producto seleccionado</p>
+    <p class="font-size-sm font-weight-medium pl-md-4">
+      <a class="text-nowrap" href="./productos.php" rel="noopener">
+        Ver productos actualizadas
+        <i class="cxi-angle-right font-size-base align-middle ml-1"></i>
+      </a>
+    </p>
   </div>
 </div>
 
@@ -334,15 +335,15 @@ include '../template/navbar_admin.php';
       </div>
       <div class="card-footer">
         <button type="submit" class="btn btn-primary">Actualizar producto</button>
-        <a href="ver_productos.php" class="btn btn-secondary">Cancelar</a>
+        <a href="productos.php" class="btn btn-secondary">Cancelar</a>
       </div>
     </form>
   </div>
 
   <!-- Mostrar mensaje de éxito si existe -->
   <?php if (isset($success)) : ?>
-    <script src="<?php echo BASE_URL;?>Assets/js/iziToast.min.js"></script>
-    <link rel="stylesheet" href="<?php echo BASE_URL;?>Assets/css/iziToast.min.css">
+    <script src="../../Assets/js/iziToast.min.js"></script>
+    <link rel="stylesheet" href="../../Assets/css/iziToast.min.css">
     <script>
       window.onload = function() {
         iziToast.success({
@@ -356,8 +357,8 @@ include '../template/navbar_admin.php';
 
   <!-- Mostrar mensaje de error si existe -->
   <?php if (isset($error)) : ?>
-    <script src="<?php echo BASE_URL;?>Assets/js/iziToast.min.js"></script>
-    <link rel="stylesheet" href="<?php echo BASE_URL;?>Assets/css/iziToast.min.css">
+    <script src="../../Assets/js/iziToast.min.js"></script>
+    <link rel="stylesheet" href="../../Assets/css/iziToast.min.css">
     <script>
       window.onload = function() {
         iziToast.error({
@@ -371,143 +372,9 @@ include '../template/navbar_admin.php';
 
 
 </div>
+</div> <br><br><br>
 
 
-</section>
-</main>
 
-<!-- Back to top button-->
-<a class="btn-scroll-top" href="#top" data-scroll data-fixed-element>
-  <span class="btn-scroll-top-tooltip text-muted font-size-sm mr-2">Top</span>
-  <i class="btn-scroll-top-icon cxi-angle-up"></i>
-</a>
-
-<!-- Vendor scripts: js libraries and plugins-->
-<script src="<?php echo BASE_URL;?>Assets/vendor/jquery/dist/jquery.slim.min.js"></script>
-<script src="<?php echo BASE_URL;?>Assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-<script src="<?php echo BASE_URL;?>Assets/vendor/simplebar/dist/simplebar.min.js"></script>
-<script src="<?php echo BASE_URL;?>Assets/vendor/smooth-scroll/dist/smooth-scroll.polyfills.min.js"></script>
-
-<script>
-  var tallaRopaCheckbox = document.getElementById('talla_ropa');
-  var tallaCalzadoCheckbox = document.getElementById('talla_calzado');
-  var tallasLimpioInput = document.getElementById('tallasLimpio');
-
-  tallaRopaCheckbox.addEventListener('change', function() {
-    if (this.checked) {
-      tallaCalzadoCheckbox.checked = false;
-      tallasLimpioInput.value = '';
-      tallasLimpioInput.placeholder = 'Ejemplo: M, L';
-      tallasLimpioInput.removeAttribute('disabled');
-    }
-  });
-
-  tallaCalzadoCheckbox.addEventListener('change', function() {
-    if (this.checked) {
-      tallaRopaCheckbox.checked = false;
-      tallasLimpioInput.value = '';
-      tallasLimpioInput.placeholder = 'Ejemplo: 12, 15';
-      tallasLimpioInput.removeAttribute('disabled');
-    }
-  });
-
-  tallasLimpioInput.addEventListener('input', function() {
-    if (this.value.trim() === '') {
-      tallaRopaCheckbox.checked = false;
-      tallaCalzadoCheckbox.checked = false;
-    }
-  });
-</script>
-
-
-<script>
-  // Código JavaScript para mostrar la imagen del producto en la vista previa
-  // Este código asume que el elemento "imagen-producto-preview" existe en el DOM.
-
-  // Verificar si hay imágenes del producto seleccionadas y mostrarlas en la vista previa
-  var imagenProductoInput = document.getElementById('imagenes');
-  var imagenProductoPreview = document.getElementById('imagen-producto-preview');
-
-  imagenProductoInput.addEventListener('change', function(event) {
-    var files = event.target.files;
-    imagenProductoPreview.innerHTML = '';
-
-    function readImage(index) {
-      if (index >= files.length) {
-        // Si no se ha seleccionado ninguna imagen, mostrar la imagen por defecto del producto
-        if (files.length === 0) {
-          var defaultImage = new Image();
-          defaultImage.src = '<?php echo BASE_URL;?>Assets/img/productos_img/default.png';
-          defaultImage.alt = 'Imagen por defecto';
-          defaultImage.style.maxWidth = '100%';
-          defaultImage.style.maxHeight = '100%';
-          imagenProductoPreview.appendChild(defaultImage);
-        }
-        return;
-      }
-
-      var file = files[index];
-      var reader = new FileReader();
-
-      reader.onload = function() {
-        var image = new Image();
-        image.src = reader.result;
-        image.alt = 'Previsualización de la imagen del producto';
-        image.style.maxWidth = '100px'; // Ajusta el tamaño de la previsualización
-        image.style.maxHeight = '100px'; // Ajusta el tamaño de la previsualización
-        image.style.margin = '5px'; // Agrega margen entre las imágenes en la previsualización
-        imagenProductoPreview.appendChild(image);
-
-        // Llamar a la función recursivamente para leer la siguiente imagen
-        readImage(index + 1);
-      };
-
-      if (file) {
-        reader.readAsDataURL(file);
-      }
-    }
-
-    // Iniciar la función recursiva para mostrar las imágenes seleccionadas
-    readImage(0);
-  });
-</script>
-
-
-<script>
-  function showSubcategorias() {
-    var categoriaId = document.getElementById('categoria_id').value;
-    var subcategoriaDiv = document.getElementById('subcategoriaDiv');
-    var subcategoriaSelect = document.getElementById('subcategoria_id');
-
-    // Verificar si se ha seleccionado una categoría
-    if (categoriaId !== '') {
-      // Mostrar el campo de selección de subcategoría
-      subcategoriaDiv.style.display = 'block';
-
-      // Mostrar u ocultar las opciones de subcategorías según la categoría seleccionada
-      var subcategoriaOptions = subcategoriaSelect.getElementsByTagName('option');
-      for (var i = 0; i < subcategoriaOptions.length; i++) {
-        var option = subcategoriaOptions[i];
-        var categoriaData = option.getAttribute('data-categoria');
-        if (categoriaData === categoriaId) {
-          option.style.display = 'block';
-        } else {
-          option.style.display = 'none';
-        }
-      }
-    } else {
-      // Si no se ha seleccionado una categoría, ocultar el campo de selección de subcategoría
-      subcategoriaDiv.style.display = 'none';
-    }
-
-    // Restablecer el campo de selección de subcategoría a "Seleccionar Subcategoría"
-    subcategoriaSelect.value = '';
-  }
-</script>
-
-
-<!-- Main theme script-->
-<script src="<?php echo BASE_URL;?>Assets/js/theme.min.js"></script>
-</body>
-
-</html>
+<script src="../../Assets/js/editar_productos.js"></script>
+<?php include '../template/footer_admin.php'; ?>

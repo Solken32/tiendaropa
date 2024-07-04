@@ -157,21 +157,21 @@
                         </a>
                     </li>
                     <li class="sidebar-item">
-                        <a href="#" class="sidebar-link">
+                        <a href="./configuracionTienda.php" class="sidebar-link">
                             <i class="lni lni-cog"></i>
                             <span>Configurar tienda</span>
                         </a>
                     </li>
 
                     <li class="sidebar-item">
-                        <a href="#" class="sidebar-link">
+                        <a href="./register.php" class="sidebar-link">
                             <i class="lni lni-customer"></i>
                             <span>Registrar administrador</span>
                         </a>
                     </li>
                 </ul>
                 <div class="sidebar-footer">
-                    <a href="#" class="sidebar-link">
+                    <a href="?logout=true" class="sidebar-link">
                         <i class="lni lni-exit"></i>
                         <span>Logout</span>
                     </a>

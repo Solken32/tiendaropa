@@ -1,13 +1,13 @@
+<?php include '../../config/config.php';
+include BASE_PATH . 'config/conexion.php'; ?>
+<?php include '../template/navbar_admin.php'; ?>
+
+
 <?php
-include '../../config/config.php';
-include BASE_PATH . 'config/conexion.php';
-include '../template/header_admin.php';
 
 // Definir la ruta de la imagen por defecto
 $rutaImagenDefecto = '../../Assets/img/marca_img/default.png';
 
-// Iniciar la sesión
-session_start();
 
 // Verificar si NO se ha iniciado sesión y NO hay un token almacenado
 if (!isset($_SESSION['token'])) {
@@ -37,12 +37,12 @@ if (isset($_GET['id'])) {
     // Resto del código...
   } else {
     // Si no se encontró la marca, redirigir a la página de listar marcas
-    header('Location: ver_marcas.php');
+    header('Location: marcas.php');
     exit;
   }
 } else {
   // Si no se proporcionó el ID de la marca, redirigir a la página de listar marcas
-  header('Location: ver_marcas.php');
+  //header('Location: marcas.php');
   exit;
 }
 
@@ -120,136 +120,85 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   }
 }
 
-include '../template/navbar_admin.php';
 ?>
 
-<!-- Page title-->
-<div class="border-bottom pt-5 mt-2 mb-5">
-  <h1 class="mt-2 mt-md-4 mb-3 pt-5">EDITAR MARCAS</h1>
-  <div class="d-flex flex-wrap flex-md-nowrap justify-content-between">
-    <p class="text-muted">Aquí puedes editar las marcas</p>
-  </div>
-</div>
+<div class="container">
+  <div class="border-bottom pt-1 mt-2 mb-5">
+    <h1 class="mt-2 mt-md-4 mb-3 pt-5">EDITAR MARCAS</h1>
+    <div class="d-flex flex-wrap flex-md-nowrap justify-content-between">
+      <p class="text-muted">Aquí puedes editar las marcas</p>
+      <p class="font-size-sm font-weight-medium pl-md-4">
+        <a class="text-nowrap" href="./marcas.php" rel="noopener">
+          Ver marcas actualizadas
+          <i class="cxi-angle-right font-size-base align-middle ml-1"></i>
+        </a>
+      </p>
 
-<div class="card box-shadow-sm">
-  <div class="card-header">
-    <h5 style="margin-bottom: 0px;">EDITAR MARCA</h5>
+    </div>
   </div>
-  <div class="card-body">
-    <form method="POST" enctype="multipart/form-data">
-      <div class="form-group">
-        <label for="nombre">Nombre de la marca:</label>
-        <input type="text" class="form-control" id="nombre" name="nombre" required value="<?php echo $nombremarca; ?>">
-      </div>
-      <div class="form-group">
-        <label for="imagen">Imagen de la marca (formato .png):</label>
-        <input type="file" class="form-control-file" id="imagen" name="imagen" accept=".png">
-        <br>
-        <div id="imagen-preview" style="max-width: 200px; max-height: 200px;">
-          <?php if (!empty($rutaImagen_actual)) : ?>
-            <!-- Agregar un parámetro aleatorio a la URL de la imagen -->
-            <img src="<?php echo $rutaImagen_actual . '?t=' . time(); ?>" alt="Previsualización de la imagen">
-          <?php else : ?>
-            <p>No se ha seleccionado ninguna imagen de marca</p>
-          <?php endif; ?>
+
+  <div class="card box-shadow-sm">
+    <div class="card-header">
+      <h5 style="margin-bottom: 0px;">EDITAR MARCA</h5>
+    </div>
+    <div class="card-body">
+      <form method="POST" enctype="multipart/form-data">
+        <div class="form-group">
+          <label for="nombre">Nombre de la marca:</label>
+          <input type="text" class="form-control" id="nombre" name="nombre" required value="<?php echo $nombremarca; ?>">
         </div>
-      </div>
-      <button type="submit" class="btn btn-primary">Actualizar marca</button>
-      <a href="ver_marcas.php" class="btn btn-secondary">Cancelar</a>
-    </form>
+        <div class="form-group">
+          <label for="imagen">Imagen de la marca (formato .png):</label>
+          <input type="file" class="form-control-file" id="imagen" name="imagen" accept=".png">
+          <br>
+          <div id="imagen-preview" style="max-width: 200px; max-height: 200px;">
+            <?php if (!empty($rutaImagen_actual)) : ?>
+              <!-- Agregar un parámetro aleatorio a la URL de la imagen -->
+              <img src="<?php echo $rutaImagen_actual . '?t=' . time(); ?>" alt="Previsualización de la imagen">
+            <?php else : ?>
+              <p>No se ha seleccionado ninguna imagen de marca</p>
+            <?php endif; ?>
+          </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Actualizar marca</button>
+        <a href="marcas.php" class="btn btn-secondary">Cancelar</a>
+      </form>
 
-    <!-- Mostrar mensaje de éxito si existe -->
-    <?php if (isset($success)) : ?>
-      <script src="<?php echo BASE_URL;?>Assets/js/iziToast.min.js"></script>
-      <link rel="stylesheet" href="<?php echo BASE_URL;?>Assets/css/iziToast.min.css">
-      <script>
-        window.onload = function() {
-          iziToast.success({
-            title: "Éxito",
-            message: "<?php echo $success; ?>",
-            position: "topRight"
-          });
-        };
-      </script>
-    <?php endif; ?>
+      <!-- Mostrar mensaje de éxito si existe -->
+      <?php if (isset($success)) : ?>
+        <script src="../../Assets/js/iziToast.min.js"></script>
+        <link rel="stylesheet" href="../../Assets/css/iziToast.min.css">
+        <script>
+          window.onload = function() {
+            iziToast.success({
+              title: "Éxito",
+              message: "<?php echo $success; ?>",
+              position: "topRight"
+            });
+          };
+        </script>
+      <?php endif; ?>
 
-    <!-- Mostrar mensaje de error si existe -->
-    <?php if (isset($error)) : ?>
-      <script src="<?php echo BASE_URL;?>Assets/js/iziToast.min.js"></script>
-      <link rel="stylesheet" href="<?php echo BASE_URL;?>Assets/css/iziToast.min.css">
-      <script>
-        window.onload = function() {
-          iziToast.error({
-            title: "Error",
-            message: "<?php echo $error; ?>",
-            position: "topRight"
-          });
-        };
-      </script>
-    <?php endif; ?>
+      <!-- Mostrar mensaje de error si existe -->
+      <?php if (isset($error)) : ?>
+        <script src="../../Assets/js/iziToast.min.js"></script>
+        <link rel="stylesheet" href="../../Assets/css/iziToast.min.css">
+        <script>
+          window.onload = function() {
+            iziToast.error({
+              title: "Error",
+              message: "<?php echo $error; ?>",
+              position: "topRight"
+            });
+          };
+        </script>
+      <?php endif; ?>
 
+    </div>
   </div>
-</div>
 
 </div>
-</section>
-</main>
-
-<script>
-  document.addEventListener("DOMContentLoaded", function() {
-    // Código JavaScript para mostrar la imagen de marca en la vista previa
-    // Este código asume que el elemento "imagen-preview" existe en el DOM.
-
-    // Verificar si hay una imagen de marca seleccionada y mostrarla en la vista previa
-    var imagenInput = document.getElementById('imagen');
-    var imagenPreview = document.getElementById('imagen-preview');
-
-    imagenInput.addEventListener('input', function(event) {
-      var file = event.target.files[0];
-      var reader = new FileReader();
-
-      reader.onload = function() {
-        var image = new Image();
-        image.src = reader.result;
-        image.alt = 'Previsualización de la imagen';
-        image.style.maxWidth = '100%';
-        image.style.maxHeight = '100%';
-        imagenPreview.innerHTML = '';
-        imagenPreview.appendChild(image);
-      };
-
-      if (file) {
-        reader.readAsDataURL(file);
-      } else {
-        // Si no se ha seleccionado ninguna imagen, mostrar la imagen por defecto
-        var defaultImage = new Image();
-        defaultImage.src = '<?php echo BASE_URL;?>Assets/img/marca_img/default.png';
-        defaultImage.alt = 'Imagen por defecto';
-        defaultImage.style.maxWidth = '100%';
-        defaultImage.style.maxHeight = '100%';
-        imagenPreview.innerHTML = '';
-        imagenPreview.appendChild(defaultImage);
-      }
-    });
-  });
-</script>
 
 
-
-<!-- Back to top button-->
-<a class="btn-scroll-top" href="#top" data-scroll data-fixed-element>
-  <span class="btn-scroll-top-tooltip text-muted font-size-sm mr-2"></span>
-  <i class="btn-scroll-top-icon cxi-angle-up"></i>
-</a>
-
-<script src="<?php echo BASE_URL;?>Assets/vendor/jquery/dist/jquery.slim.min.js"></script>
-<script src="<?php echo BASE_URL;?>Assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-<script src="<?php echo BASE_URL;?>Assets/vendor/simplebar/dist/simplebar.min.js"></script>
-<script src="<?php echo BASE_URL;?>Assets/js/app.js"></script>
-<script src="<?php echo BASE_URL;?>Assets/vendor/smooth-scroll/dist/smooth-scroll.polyfills.min.js"></script>
-
-<!-- Main theme script-->
-<script src="<?php echo BASE_URL;?>Assets/js/theme.min.js"></script>
-</body>
-
-</html>
+<script src="../../Assets/js/editar_marcas.js"></script>
+<?php include '../template/footer_admin.php'; ?>

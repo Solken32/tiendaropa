@@ -39,7 +39,7 @@
             <h1 class="mt-2 mt-md-4 mb-3 pt-5">AÑADIR SUBCATEGORÍAS</h1>
             <div class="d-flex flex-wrap flex-md-nowrap justify-content-between">
               <p class="text-muted">Aquí puedes añadir las subcategorías</p>
-              <p class="font-size-sm font-weight-medium pl-md-4"><a class="text-nowrap" href="./ver_subcategorias.php" rel="noopener">Ver subcategorias añadidas<i class="cxi-angle-right font-size-base align-middle ml-1"></i></a></p>
+              <p class="font-size-sm font-weight-medium pl-md-4"><a class="text-nowrap" href="./subcategoria.php" rel="noopener">Ver subcategorias añadidas<i class="cxi-angle-right font-size-base align-middle ml-1"></i></a></p>
             </div>
   </div>
 
